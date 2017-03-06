@@ -1,0 +1,9 @@
+Host 34.252.5.247
+  ForwardAgent yes
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host *
+  User ubuntu
+  IdentityFile mesos-starter
+  ProxyCommand ssh ubuntu@34.252.5.247 -W %h:%p
