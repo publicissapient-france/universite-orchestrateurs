@@ -1,26 +1,21 @@
 ---
-- hosts: slave
+- hosts: mesos_slave
   become: true
   roles:
-    - docker
-    - mesos-slave
-- hosts: master
+#    - docker
+#    - mesos-slave
+
+- hosts: mesos_master
   become: true
   roles:
-#      - role: JasonGiedymin.java
-#      - role: geerlingguy.java
-#        use_openjdk_ppa: true
-#        java_register_alternative: true
-#        java_packages:
-#          - openjdk-8-jdk
-#      - role: AnsibleShipyard.ansible-zookeeper
-#      - role: JasonGiedymin.mesos
-- hosts: swarm_master
+
+- hosts: swarm_*
   become: true
   roles:
       - role: docker
 
-- hosts: kubernetes_master:kubernetes_worker
+- hosts: kubernetes_*
   become: true
   roles:
     - kubernetes
+
