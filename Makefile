@@ -20,3 +20,15 @@ destroy:
 
 info:
 	./terraform2ansible.js terraform/terraform.tfstate
+
+get:
+	aws s3 cp s3://xebia-terraform-states/terraform.tfstate   terraform/terraform.tfstate
+	aws s3 cp s3://xebia-terraform-states/mesos-starter       mesos-starter
+	aws s3 cp s3://xebia-terraform-states/mesos-starter.pub   mesos-starter.pub
+	chmod 600 mesos-starter
+
+push:
+	aws s3 cp terraform/terraform.tfstate   s3://xebia-terraform-states/
+	aws s3 cp mesos-starter                 s3://xebia-terraform-states/
+	aws s3 cp mesos-starter.pub             s3://xebia-terraform-states/
+
