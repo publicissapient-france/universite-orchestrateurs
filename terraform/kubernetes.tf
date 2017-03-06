@@ -10,7 +10,7 @@ resource "aws_instance" "kubernetes_master" {
 
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.kubernetes_master.id}"
-  vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   tags {
     Name = "${var.project_name} - kubernetes master ${count.index + 1}"
@@ -28,7 +28,7 @@ resource "aws_instance" "kubernetes_worker" {
 
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.kubernetes_worker.id}"
-  vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   tags {
     Name = "${var.project_name} - kubernetes worker ${count.index + 1}"

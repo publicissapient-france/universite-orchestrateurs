@@ -7,16 +7,20 @@
 - hosts: master
   become: true
   roles:
-      - role: JasonGiedymin.java
+#      - role: JasonGiedymin.java
 #      - role: geerlingguy.java
-        use_openjdk_ppa: true
-        java_register_alternative: true
+#        use_openjdk_ppa: true
+#        java_register_alternative: true
 #        java_packages:
 #          - openjdk-8-jdk
-      - role: AnsibleShipyard.ansible-zookeeper
-      - role: JasonGiedymin.mesos
-
+#      - role: AnsibleShipyard.ansible-zookeeper
+#      - role: JasonGiedymin.mesos
 - hosts: swarm_master
   become: true
   roles:
       - role: docker
+
+- hosts: kubernetes_master:kubernetes_worker
+  become: true
+  roles:
+    - kubernetes
