@@ -13,3 +13,12 @@
     - kubeadm
     - kubectl
     - kubernetes-cni
+
+- name: add ubuntu to docker group
+  user: name=ubuntu groups=docker append=yes
+
+- name: ensure service is running
+  service: name={{item}} state=started enabled=yes
+  with_items:
+    - docker
+    - kubelet
