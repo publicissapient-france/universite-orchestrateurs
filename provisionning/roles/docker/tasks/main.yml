@@ -1,6 +1,6 @@
 ---
 - name: Add apt-key
-  apt_key: url=https://apt.dockerproject.org/gpg
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
 - name: Install packages
   apt: pkg={{item}} state=present update_cache=yes
