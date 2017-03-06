@@ -1,4 +1,4 @@
 .idea
-
+inventory
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
