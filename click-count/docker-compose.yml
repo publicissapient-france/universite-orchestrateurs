@@ -1,8 +1,8 @@
-redis:
-  image: redis
-web:
-  image: clickcount
-  ports:
-    - "80:8080"
-  links:
-    - redis
+version: '2'
+services:
+  web:
+    image: xebiafrance/click-count
+    ports:
+     - "80:8080"
+  redis:
+    image: redis
