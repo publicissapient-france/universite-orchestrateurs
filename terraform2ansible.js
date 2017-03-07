@@ -7,7 +7,7 @@ if (process.argv.length < 3) {
 
 var input = process.argv[2];
 var output = null;
-if(process.argv.length == 4){
+if (process.argv.length == 4) {
     output = process.argv[3];
 }
 
@@ -15,7 +15,7 @@ var fs = require('fs');
 var config = JSON.parse(fs.readFileSync(input, 'utf8'));
 var resources = config.modules[0].resources;
 var ansible = {};
-var attributes = ['public_ip', 'private_ip','type','instance_type'];
+var attributes = ['public_ip', 'private_ip', 'type', 'instance_type'];
 
 for (var key in resources) {
     var resource = resources[key];
@@ -36,27 +36,67 @@ for (var key in resources) {
 }
 
 var inventory = "";
+ssh_config = '';
+
 for (var key in ansible) {
     inventory += "[" + key + "]\n";
-    ansible[key].forEach(function (host) {
+    ansible[key].forEach(function (host, index) {
         inventory += host.public_ip != '' ? host.public_ip : host.private_ip;
-        for (var key in host) {
-            if (attributes.indexOf(key) != -1) {
-                inventory += " " + key + "=\"" + host[key] + "\"";
+        for (var attr_key in host) {
+            if (attributes.indexOf(attr_key) != -1) {
+                inventory += " " + attr_key + "=\"" + host[attr_key] + "\"";
             }
         }
         inventory += "\n";
+
+        if (host.public_ip != '') {
+
+            if (host.type == 'bastion') {
+                ssh_config += `
+Host bastion
+  Hostname ${host.public_ip}
+  User ubuntu
+  IdentityFile mesos-starter
+  ForwardAgent yes
+`;
+            } else {
+                ssh_config += `
+Host ${key}.${index+1}
+  Hostname ${host.public_ip}
+  User ubuntu
+  IdentityFile mesos-starter
+`;
+            }
+
+        } else {
+            ssh_config += `
+Host ${key}.${index+1}
+  Hostname ${host.private_ip}
+  User ubuntu
+  IdentityFile mesos-starter
+  ProxyCommand ssh bastion -W %h:%p
+`;
+        }
+
     });
 }
 
-if(output){
-    fs.writeFile(output,inventory, function(err) {
-        if(err) {
+if (output) {
+    fs.writeFile(output, inventory, function (err) {
+        if (err) {
             console.log(err);
         } else {
             console.log(output + " was saved!");
         }
     });
-}else{
+
+    fs.writeFile('ssh_config', ssh_config, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('ssh_config' + " was saved!");
+        }
+    });
+} else {
     console.log(inventory)
 }
