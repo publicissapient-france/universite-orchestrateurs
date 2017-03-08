@@ -1,0 +1,12 @@
+---
+- hosts: mesos_master
+  become: true
+  # ansible-galaxy install --roles-path ./provisionning/roles/ geerlingguy.java
+  # ansible-galaxy install --roles-path ./provisionning/roles/ AnsibleShipyard.ansible-zookeeper
+  # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.mesos
+  # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.marathon
+  roles:
+   # - { role: geerlingguy.java, java_packages: ["openjdk-8-jdk"]}
+    - { role: AnsibleShipyard.ansible-zookeeper, zookeeper_hosts: "{{groups['mesos_master']}}"}
+ #   - { role: JasonGiedymin.mesos, mesos_install_mode: master }
+ #   - { role: JasonGiedymin.marathon }
