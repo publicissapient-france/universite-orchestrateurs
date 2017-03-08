@@ -1,9 +1,125 @@
-Host 34.252.5.247
-  ForwardAgent yes
+
+Host kubernetes-master.1
+  Hostname 34.250.33.216
   User ubuntu
   IdentityFile mesos-starter
 
-Host *
+Host kubernetes-master.2
+  Hostname 34.249.31.235
   User ubuntu
   IdentityFile mesos-starter
-  ProxyCommand ssh ubuntu@34.252.5.247 -W %h:%p
+
+Host kubernetes-master.3
+  Hostname 34.252.13.63
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host kubernetes-worker.1
+  Hostname 34.250.76.72
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host kubernetes-worker.2
+  Hostname 34.250.77.188
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host kubernetes-worker.3
+  Hostname 34.252.14.169
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host kubernetes-worker.4
+  Hostname 34.252.14.71
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host kubernetes-worker.5
+  Hostname 34.248.60.37
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-master.1
+  Hostname 34.248.244.76
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-master.2
+  Hostname 34.248.254.20
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-master.3
+  Hostname 34.251.223.152
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-worker.1
+  Hostname 34.250.167.216
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-worker.2
+  Hostname 34.252.13.176
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-worker.3
+  Hostname 34.248.188.189
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-worker.4
+  Hostname 34.252.14.152
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host mesos-worker.5
+  Hostname 34.251.105.254
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host prometheus.1
+  Hostname 34.249.79.36
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-master.1
+  Hostname 34.252.14.164
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-master.2
+  Hostname 34.251.200.12
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-master.3
+  Hostname 34.252.14.201
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-worker.1
+  Hostname 34.248.65.234
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-worker.2
+  Hostname 34.250.108.2
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-worker.3
+  Hostname 34.248.115.127
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-worker.4
+  Hostname 34.251.246.99
+  User ubuntu
+  IdentityFile mesos-starter
+
+Host swarm-worker.5
+  Hostname 34.250.242.153
+  User ubuntu
+  IdentityFile mesos-starter
