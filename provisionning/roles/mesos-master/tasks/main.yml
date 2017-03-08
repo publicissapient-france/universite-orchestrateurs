@@ -1,6 +1,6 @@
 ---
 - name: Add apt-key
-  apt_key: id=E56151BF keyserver=keyserver.ubuntu.com:80 state=present
+  apt_key: id=E56151BF keyserver=keyserver.ubuntu.com state=present
 
 - name: Add mesosphere repo
   apt_repository: repo='deb http://repos.mesosphere.io/{{ansible_distribution|lower}} {{ansible_distribution_release|lower}} main' state=present
@@ -8,10 +8,11 @@
 - name: Install packages
   apt: pkg={{item}} state=present update_cache=yes
   with_items:
-    - wget
-    - curl
-    - unzip
-    - python
-    - python-setuptools
-    - python-dev
     - mesos
+    - zookeeper
+
+- name: start and enable service
+  service: name={{item}} state=started enabled=yes
+  with_items:
+    - mesos-master
+    - zookeeper
