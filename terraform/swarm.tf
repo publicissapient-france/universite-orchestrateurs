@@ -9,7 +9,7 @@ resource "aws_instance" "swarm_master" {
 
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.swarm_master.id}"
-  vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   tags {
     Name = "${var.project_name} - swarm master ${count.index + 1}"
@@ -29,7 +29,7 @@ resource "aws_instance" "swarm_worker" {
 
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.swarm_worker.id}"
-  vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   tags {
     Name = "${var.project_name} - swarm worker ${count.index + 1}"

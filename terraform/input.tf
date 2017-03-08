@@ -56,7 +56,9 @@ variable "kubernetes_master_count" {
   type = "string"
 }
 
-
+variable "monitoring_count" {
+  type = "string"
+}
 
 provider "aws" {
   region = "eu-west-1"

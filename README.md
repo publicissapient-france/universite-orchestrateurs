@@ -17,3 +17,7 @@ Le cli aws est requis pour télécharger la clé ssh et le terraform.state depui
 - `pip install awscli` pour install le cli aws
 - `aws configure` pour configurer le cli
 - `make get` pour télécharger les fichiers
+
+## Rôles ansible
+
+- `ansible-galaxy install williamyeh.prometheus`

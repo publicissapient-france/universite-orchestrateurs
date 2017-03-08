@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+  become: true
+  vars:
+    prometheus_components: [ "node_exporter" ]
+  roles:
+    - role: 'williamyeh.prometheus'
+
+- hosts: prometheus
+  become: true
+  vars:
+    prometheus_components: [ "prometheus" , "alertmanager" ]
+  roles:
+    - role: 'williamyeh.prometheus'
+  tasks:
+    - name: update nodes list
+      template: src="templates/node_exporters.yml.j2"  dest="/etc/prometheus/tgroups/node_exporters.yml"
+      vars:
+        exporters: "{{ groups['all'] }}"

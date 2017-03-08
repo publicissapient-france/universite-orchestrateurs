@@ -41,7 +41,8 @@ ssh_config = '';
 for (var key in ansible) {
     inventory += "[" + key + "]\n";
     ansible[key].forEach(function (host, index) {
-        inventory += host.public_ip != '' ? host.public_ip : host.private_ip;
+        inventory += `${key}.${index+1}`;
+        // inventory += host.public_ip != '' ? host.public_ip : host.private_ip;
         for (var attr_key in host) {
             if (attributes.indexOf(attr_key) != -1) {
                 inventory += " " + attr_key + "=\"" + host[attr_key] + "\"";
@@ -53,7 +54,7 @@ for (var key in ansible) {
 
             if (host.type == 'bastion') {
                 ssh_config += `
-Host bastion
+Host ${key}.${index+1}
   Hostname ${host.public_ip}
   User ubuntu
   IdentityFile mesos-starter
@@ -74,7 +75,7 @@ Host ${key}.${index+1}
   Hostname ${host.private_ip}
   User ubuntu
   IdentityFile mesos-starter
-  ProxyCommand ssh bastion -W %h:%p
+  ProxyCommand ssh bastion.1 -W %h:%p
 `;
         }
 
