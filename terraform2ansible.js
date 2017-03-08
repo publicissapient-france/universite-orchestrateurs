@@ -35,15 +35,18 @@ for (var key in resources) {
     }
 }
 
+function hostname(type,index){
+    return `${type.replace('_','-')}${index+1}`;
+}
+
 var inventory = "";
 ssh_config = '';
-
-for (var key in ansible) {
+for (let key in ansible) {
     inventory += "[" + key + "]\n";
     ansible[key].forEach(function (host, index) {
-        inventory += `${key}.${index+1}`;
-        // inventory += host.public_ip != '' ? host.public_ip : host.private_ip;
-        for (var attr_key in host) {
+        inventory += `${hostname(key,index)}`;
+        inventory += ` fqdn="${hostname(key,index)}.private" `;
+        for (let attr_key in host) {
             if (attributes.indexOf(attr_key) != -1) {
                 inventory += " " + attr_key + "=\"" + host[attr_key] + "\"";
             }
@@ -54,7 +57,7 @@ for (var key in ansible) {
 
             if (host.type == 'bastion') {
                 ssh_config += `
-Host ${key}.${index+1}
+Host ${hostname(key,index)}
   Hostname ${host.public_ip}
   User ubuntu
   IdentityFile mesos-starter
@@ -62,7 +65,7 @@ Host ${key}.${index+1}
 `;
             } else {
                 ssh_config += `
-Host ${key}.${index+1}
+Host ${hostname(key,index)}
   Hostname ${host.public_ip}
   User ubuntu
   IdentityFile mesos-starter
@@ -71,7 +74,7 @@ Host ${key}.${index+1}
 
         } else {
             ssh_config += `
-Host ${key}.${index+1}
+Host ${hostname(key,index)}
   Hostname ${host.private_ip}
   User ubuntu
   IdentityFile mesos-starter

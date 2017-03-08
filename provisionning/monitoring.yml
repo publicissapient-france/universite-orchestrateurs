@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: swarm*:kubernetes*:mesos*
   become: true
   vars:
     prometheus_components: [ "node_exporter" ]
