@@ -1,11 +1,11 @@
-mesos_master_count="3"
-mesos_worker_count="5"
+mesos-master_count="3"
+mesos-worker_count="5"
 
-swarm_master_count="3"
-swarm_worker_count="5"
+swarm-master_count="3"
+swarm-worker_count="5"
 
-kubernetes_master_count="3"
-kubernetes_worker_count="5"
+kubernetes-master_count="3"
+kubernetes-worker_count="5"
 
 monitoring_count = "1"
 

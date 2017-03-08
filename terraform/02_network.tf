@@ -2,6 +2,8 @@
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support = true
   tags {
     Name = "${var.project_name}"
     Owner = "${var.owner}"
@@ -74,3 +76,11 @@ resource "aws_route_table" "private" {
   }
 }
 
+resource "aws_route53_zone" "private" {
+  name = "private"
+  vpc_id = "${aws_vpc.main.id}"
+  tags = {
+    Name = "${var.project_name} - private zone"
+    Owner = "${var.owner}"
+  }
+}

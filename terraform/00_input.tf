@@ -30,29 +30,29 @@ variable "owner" {
 }
 
 # Mesos
-variable "mesos_worker_count" {
+variable "mesos-worker_count" {
   type = "string"
 }
 
-variable "mesos_master_count" {
-  type = "string"
-}
-
-# Swarm
-variable "swarm_worker_count" {
-  type = "string"
-}
-
-variable "swarm_master_count" {
+variable "mesos-master_count" {
   type = "string"
 }
 
 # Swarm
-variable "kubernetes_worker_count" {
+variable "swarm-worker_count" {
   type = "string"
 }
 
-variable "kubernetes_master_count" {
+variable "swarm-master_count" {
+  type = "string"
+}
+
+# Swarm
+variable "kubernetes-worker_count" {
+  type = "string"
+}
+
+variable "kubernetes-master_count" {
   type = "string"
 }
 

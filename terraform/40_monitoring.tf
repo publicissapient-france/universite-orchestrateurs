@@ -1,7 +1,5 @@
-
-
 resource "aws_instance" "prometheus" {
-  count = "1"
+  count = "${var.monitoring_count}"
   ami = "${data.aws_ami.ubuntu.id}"
   key_name = "${aws_key_pair.access.key_name}"
   instance_type = "t2.medium"
@@ -19,11 +17,15 @@ resource "aws_instance" "prometheus" {
   }
 }
 
-#
-# NETWORK
-#
+resource "aws_route53_record" "prometheus" {
+  count = "${var.monitoring_count}"
+  zone_id = "${aws_route53_zone.private.zone_id}"
+  name = "prometheus${count.index + 1}.private"
+  type = "A"
+  ttl = "300"
+  records = ["${element(aws_instance.prometheus.*.private_ip, count.index)}"]
+}
 
-/* master subnet */
 resource "aws_subnet" "monitoring" {
   vpc_id = "${aws_vpc.main.id}"
   cidr_block = "${cidrsubnet(aws_vpc.main.cidr_block, 8, 8)}"
