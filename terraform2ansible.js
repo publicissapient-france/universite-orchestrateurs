@@ -36,7 +36,7 @@ for (var key in resources) {
 }
 
 function hostname(type,index){
-    return `${type.replace('_','-')}${index+1}`;
+    return `${type.replace('_','-')}${index+1}.private`;
 }
 
 var inventory = "";
@@ -45,7 +45,7 @@ for (let key in ansible) {
     inventory += "[" + key + "]\n";
     ansible[key].forEach(function (host, index) {
         inventory += `${hostname(key,index)}`;
-        inventory += ` fqdn="${hostname(key,index)}.private" `;
+        inventory += ` fqdn="${hostname(key,index)}" `;
         for (let attr_key in host) {
             if (attributes.indexOf(attr_key) != -1) {
                 inventory += " " + attr_key + "=\"" + host[attr_key] + "\"";

@@ -6,9 +6,11 @@
   # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.mesos
   # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.marathon
   tasks:
-    # - debug: msg="groups={{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"
+    #- debug: msg="groups={{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"
   roles:
-   - { role: geerlingguy.java, java_packages: ["openjdk-8-jdk"]}
-   - { role: AnsibleShipyard.ansible-zookeeper, zookeeper_hosts: "{{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"}
-   - { role: JasonGiedymin.mesos, mesos_install_mode: master }
-   - { role: JasonGiedymin.marathon }jjjjjhhj&aaa
+  # - { role: geerlingguy.java, java_packages: ["openjdk-8-jdk"]}
+    - role: AnsibleShipyard.ansible-zookeeper
+      zookeeper_hosts: "{{groups['mesos-master']}}"
+      zookeeper_debian_apt_install: true
+   #- { role: JasonGiedymin.mesos, mesos_install_mode: master }
+   #- { role: JasonGiedymin.marathon }
