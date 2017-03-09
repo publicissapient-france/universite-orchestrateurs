@@ -11,6 +11,8 @@
   # - { role: geerlingguy.java, java_packages: ["openjdk-8-jdk"]}
     - role: AnsibleShipyard.ansible-zookeeper
       zookeeper_hosts: "{{groups['mesos-master']}}"
-      zookeeper_debian_apt_install: true
+      zookeeper_env:
+        ZOO_LOG_DIR: '/var/log/zookeeper'
+        ZOO_LOG4J_PROP: 'INFO,ROLLINGFILE'
    #- { role: JasonGiedymin.mesos, mesos_install_mode: master }
    #- { role: JasonGiedymin.marathon }
