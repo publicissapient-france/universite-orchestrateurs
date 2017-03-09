@@ -6,7 +6,7 @@ compile:
 	                maven:3 mvn clean package
 
 build-image:
-	docker build -t xebiafrance/click-count .
+	docker build -t xebiafrance/uo-click-count .
 
 push-image:
-	docker push xebiafrance/click-count
+	docker push xebiafrance/uo-click-count

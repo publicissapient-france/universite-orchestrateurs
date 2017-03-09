@@ -1,2 +1,6 @@
+.m2/
+src/
+.gitignore
 docker-compose.yml
 Makefile
+pom.xml
