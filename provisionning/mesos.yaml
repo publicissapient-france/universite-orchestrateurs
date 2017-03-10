@@ -8,11 +8,28 @@
   tasks:
     #- debug: msg="groups={{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"
   roles:
-  # - { role: geerlingguy.java, java_packages: ["openjdk-8-jdk"]}
+    - role: geerlingguy.java
+      java_packages: ["openjdk-8-jdk"]
     - role: AnsibleShipyard.ansible-zookeeper
       zookeeper_hosts: "{{groups['mesos-master']}}"
       zookeeper_env:
         ZOO_LOG_DIR: '/var/log/zookeeper'
         ZOO_LOG4J_PROP: 'INFO,ROLLINGFILE'
-   #- { role: JasonGiedymin.mesos, mesos_install_mode: master }
-   #- { role: JasonGiedymin.marathon }
+    - role: JasonGiedymin.mesos
+      mesos_install_mode: master
+      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+      mesos_hostname: "{{ mesos_ip }}"
+      mesos_quorum: "2"
+    - role: JasonGiedymin.marathon
+      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+      marathon_hostname: "{{ ansible_default_ipv4.address }}"
+      marathon_version: "1.4.1"
+
+- hosts: mesos-worker
+  become: true
+  roles:
+    - role: docker
+    - role: JasonGiedymin.mesos
+      mesos_hostname: "{{ mesos_ip }}"
+      mesos_install_mode: slave
+      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
