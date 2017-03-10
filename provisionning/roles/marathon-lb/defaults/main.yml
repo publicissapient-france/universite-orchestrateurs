@@ -1,0 +1,5 @@
+---
+marathon_lb_version: "v1.5.0"
+marathon_hosts: ["localhost"]
+marathon_port: "8080"
+marathon_endpoint: "{% for server in marathon_hosts %}http://{{ server }}:{{ marathon_port }} {% endfor %}"

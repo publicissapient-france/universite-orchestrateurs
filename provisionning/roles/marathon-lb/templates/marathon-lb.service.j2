@@ -1,0 +1,16 @@
+[Unit]
+Description=Marathon-lb
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Environment=MARATHON_LB_DOCKER_CONTAINER_NAME=marathon-lb
+Environment=MARATHON_LB_DOCKER_IMAGE=mesosphere/marathon-lb:{{ marathon_lb_version }}
+ExecStartPre=-/usr/bin/docker kill $MARATHON_LB_DOCKER_CONTAINER_NAME
+ExecStartPre=-/usr/bin/docker rm $MARATHON_LB_DOCKER_CONTAINER_NAME
+ExecStartPre=-/usr/bin/docker pull $MARATHON_LB_DOCKER_IMAGE
+ExecStart=/usr/bin/docker run --net=host -e PORTS=9090 --name $MARATHON_LB_DOCKER_CONTAINER_NAME $MARATHON_LB_DOCKER_IMAGE sse --marathon {{ marathon_endpoint }} --health-check --group "*"
+
+[Install]
+WantedBy=multi-user.target

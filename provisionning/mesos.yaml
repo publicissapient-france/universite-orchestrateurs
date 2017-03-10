@@ -33,3 +33,5 @@
       mesos_hostname: "{{ mesos_ip }}"
       mesos_install_mode: slave
       zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+    - role: marathon-lb
+      marathon_hosts : "{{groups['mesos-master']}}"

@@ -1,0 +1,7 @@
+---
+# TODO ensure docker is here and up
+- name: systemd service file for marathon-lb
+  template: src=marathon-lb.service.j2 dest=/etc/systemd/system/marathon-lb.service
+
+- name: "start and enable marathon-lb service"
+  systemd: name=marathon-lb state=restarted enabled=yes daemon_reload=yes
