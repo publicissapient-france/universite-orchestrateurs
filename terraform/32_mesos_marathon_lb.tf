@@ -33,4 +33,14 @@ resource "aws_elb" "marathonlb" {
   }
 }
 
+resource "aws_route53_record" "goapp" {
+  zone_id = "${data.aws_route53_zone.xebia_public_dns.id}"
+  name = "*.mesosuniv"
+  type = "A"
 
+  alias {
+    name = "${aws_elb.marathonlb.dns_name}"
+    zone_id = "${aws_elb.marathonlb.zone_id}"
+    evaluate_target_health = true
+  }
+}
