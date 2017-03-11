@@ -1,4 +1,3 @@
-
 //
 //resource "aws_instance" "bastion" {
 //  ami = "${data.aws_ami.ubuntu.id}"
@@ -16,3 +15,4 @@
 //  subnet_id = "${aws_subnet.public.id}"
 //  vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}"]
 //}
+

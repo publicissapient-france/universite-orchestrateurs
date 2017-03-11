@@ -13,3 +13,5 @@ owner="tauffredou@xebia.fr"
 vpc_id="vpc-19b1977d"
 
 project_name="Universite orchestrateur"
+
+public_subdomain="uo"
