@@ -1,0 +1,66 @@
+---
+- name: deploy grafana
+  docker_container:
+    name: "{{ grafana_service_name }}"
+    image: "{{ grafana_image }}"
+    env:
+       GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
+    state: started
+    ports:
+      - "{{ grafana_port }}:3000"
+
+- name: test datasources
+  uri:
+   url: "{{ grafana_url }}/api/datasources/{{ item.0 + 1 }}"
+   method: GET
+   return_content: yes
+   body_format: json
+   user: admin
+   password: "{{ grafana_admin_password }}"
+   force_basic_auth: yes
+   status_code: '200,404'
+  register: datasources
+  with_indexed_items: "{{ grafana_datasources }}"
+
+- name: Create datasources
+  uri:
+   url: "{{ grafana_url }}/api/datasources"
+   method: POST
+   return_content: yes
+   body_format: json
+   body:
+    name: "{{ item.1.name }}"
+    type: "{{ item.1.type }}"
+    access: proxy
+    url: "{{ item.1.url }}"
+   user: admin
+   password: "{{ grafana_admin_password }}"
+   force_basic_auth: yes
+   status_code: 200
+  with_indexed_items: "{{ grafana_datasources }}"
+  when: "'not found' in datasources.results[item.0].content"
+
+- name: Update datasources
+  uri:
+   url: "{{ grafana_url }}/api/datasources/{{ item.0 + 1 }}"
+   method: PUT
+   return_content: yes
+   body_format: json
+   body:
+    name: "{{ item.1.name }}"
+    type: "{{ item.1.type }}"
+    access: proxy
+    url: "{{ item.1.url }}"
+   user: admin
+   password: "{{ grafana_admin_password }}"
+   force_basic_auth: yes
+   status_code: 200
+  with_indexed_items: "{{ grafana_datasources }}"
+  when: "'not found' not in datasources.results[item.0].content"
+
+- name: install plugin
+  shell: "docker exec {{ grafana_service_name }} grafana-cli plugins install {{ item }}"
+  notify:
+    - restart grafana
+  with_items: "{{ grafana_plugins }}"
+

@@ -10,11 +10,24 @@
 - hosts: prometheus
   become: true
   vars:
-    prometheus_components: [ "prometheus" , "alertmanager" ]
+#    prometheus_components: [ "prometheus" , "alertmanager" ]
+    prometheus_port: 9099
+    grafana_port: 3000
   roles:
-    - role: 'williamyeh.prometheus'
-  tasks:
-    - name: update nodes list
-      template: src="templates/node_exporters.yml.j2"  dest="/etc/prometheus/tgroups/node_exporters.yml"
-      vars:
-        exporters: "{{ groups['all'] }}"
+    - role: 'docker'
+    - role: 'prometheus'
+      exporter_groups:
+        - name: node
+          hosts: "{{ groups['all'] }}"
+          port: 9100
+        - name: docker
+          hosts: "{{ groups['swarm-master'] + groups['swarm-worker'] }}"
+          port: 9101
+    - role: "grafana"
+      grafana_datasources:
+        - name: prometheus
+          type: prometheus
+          url: "{{ inventory_hostname }}:{{ prometheus_port }}"
+      grafana_plugins:
+        - natel-discrete-panel
+#
