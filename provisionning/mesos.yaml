@@ -18,11 +18,11 @@
     - role: JasonGiedymin.mesos
       mesos_install_mode: master
       zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
-      mesos_hostname: "{{ mesos_ip }}"
+      mesos_hostname: "{{ public_ip }}"
       mesos_quorum: "2"
     - role: JasonGiedymin.marathon
       zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
-      marathon_hostname: "{{ ansible_default_ipv4.address }}"
+      marathon_hostname: "{{ public_ip }}"
       marathon_version: "1.4.1"
 
 - hosts: mesos-worker
@@ -30,7 +30,7 @@
   roles:
     - role: docker
     - role: JasonGiedymin.mesos
-      mesos_hostname: "{{ mesos_ip }}"
+      mesos_hostname: "{{ public_ip }}"
       mesos_install_mode: slave
       zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
     - role: marathon-lb
