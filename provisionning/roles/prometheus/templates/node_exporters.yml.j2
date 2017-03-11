@@ -1,4 +1,4 @@
 - targets:
 {% for exporter in exporters %}
-   - "{{ hostvars[exporter].fqdn }}:9100"
+   - "{{ hostvars[exporter].fqdn }}:{{ port }}"
 {% endfor %}

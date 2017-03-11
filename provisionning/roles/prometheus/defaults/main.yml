@@ -1,0 +1,5 @@
+prometheus_image: prom/prometheus
+prometheus_port: 9090
+
+prometheus_config_path:          /etc/prometheus
+prometheus_file_sd_config_path:  "{{ prometheus_config_path }}/tgroups"

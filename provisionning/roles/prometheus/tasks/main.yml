@@ -1,0 +1,26 @@
+---
+
+- name: copy prometheus main config file from role's default, if necessary
+  template:
+    src: "templates/prometheus.yml.j2"
+    dest: "{{ prometheus_config_path }}/prometheus.yml"
+  notify:
+    - reload prometheus
+
+- name: "create {{ item.name }} target files"
+  template: src="templates/node_exporters.yml.j2"  dest="{{ prometheus_file_sd_config_path }}/{{item.name}}_exporters.yml"
+  vars:
+    exporters: "{{ item.hosts }}"
+    port: "{{ item.port }}"
+  with_items: "{{ exporter_groups }}"
+
+- name: deploy prometheus
+  docker_container:
+    name: prometheus
+    image: "{{ prometheus_image }}"
+    state: started
+    ports:
+      - "{{ prometheus_port }}:9090"
+    volumes:
+     - "{{ prometheus_config_path }}/prometheus.yml:/etc/prometheus/prometheus.yml"
+     - "{{ prometheus_file_sd_config_path }}:{{ prometheus_file_sd_config_path }}"
