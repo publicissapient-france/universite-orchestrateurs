@@ -1,3 +1,4 @@
 {
-  "prometheus": "http://prometheus1.uo.aws.xebiatechevent.info:9090/targets"
+  "prometheus": "http://prometheus1.uo.aws.xebiatechevent.info:9099/targets",
+  "grafana": "http://prometheus1.uo.aws.xebiatechevent.info:3000"
 }
