@@ -9,6 +9,12 @@
     - ca-certificates
     - curl
     - software-properties-common
+    - python-pip
+
+- name: Install python utils
+  pip:
+    name: docker-compose
+    version: 1.9.0  # waiting for ansible module to be fixed
 
 - name: Add Docker repo
   apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/{{ansible_distribution|lower}} {{ansible_distribution_release|lower}} stable' state=present
@@ -17,3 +23,9 @@
   apt: pkg={{item}} state=present update_cache=yes
   with_items:
     - docker-ce
+
+- name: docker daemon config
+  template: src="templates/daemon.json.j2"  dest="/etc/docker/daemon.json"
+  notify:
+    - restart docker
+
