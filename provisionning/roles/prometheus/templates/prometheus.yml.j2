@@ -27,7 +27,7 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-{% for (item) in exporter_groups %}
+{% for (item) in prometheus_exporter_groups %}
   - job_name: "{{ item.name }}"
     file_sd_configs:
       - files:

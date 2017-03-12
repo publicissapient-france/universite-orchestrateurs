@@ -1,3 +1,4 @@
 ---
 - name: reload prometheus
-  shell: docker kill -s SIGHUP prometheus
+  shell: docker restart prometheus
+#  shell: docker kill -s SIGHUP prometheus
