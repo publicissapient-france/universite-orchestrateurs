@@ -1,6 +1,7 @@
 {
-  "prometheus": "http://prometheus1.uo.aws.xebiatechevent.info:9090/targets",
-  "graylog": "http://prometheus1.uo.aws.xebiatechevent.info:9000",
-  "grafana": "http://prometheus1.uo.aws.xebiatechevent.info:3000",
-  "marathon": "http://mesos-master1.uo.aws.xebiatechevent.info:8080"
+  "prometheus": "http://prometheus1.uo.techx.fr:9090/targets",
+  "graylog": "http://prometheus1.uo.techx.fr:9000",
+  "grafana": "http://prometheus1.uo.techx.fr:3000",
+  "marathon": "http://mesos-master1.uo.techx.fr:8080",
+  "portainer": "http://swarm-worker1.uo.techx.fr:9000"
 }
