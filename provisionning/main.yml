@@ -1,6 +1,0 @@
----
-- hosts: all
-  become: true
-  tasks:
-    - name: Ensure hostname set
-      hostname: name={{ inventory_hostname | replace("_", "-")}}
