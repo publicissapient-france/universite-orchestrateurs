@@ -26,7 +26,7 @@ data "aws_ami" "ubuntu" {
 }
 
 data "aws_route53_zone" "xebia_public_dns" {
-  name = "aws.xebiatechevent.info."
+  name = "techx.fr."
 }
 
 variable "public_subdomain" {
