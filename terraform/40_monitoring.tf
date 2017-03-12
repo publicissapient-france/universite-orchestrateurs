@@ -10,6 +10,10 @@ resource "aws_instance" "prometheus" {
   subnet_id                   = "${aws_subnet.monitoring.id}"
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
 
+  root_block_device {
+    volume_size = 20
+  }
+
   tags {
     Name  = "${var.project_name} - prometheus ${count.index + 1}"
     Group = "${var.project_name}"
