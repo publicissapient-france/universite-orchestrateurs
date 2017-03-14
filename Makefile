@@ -3,6 +3,9 @@
 
 default: plan
 
+show:
+	cd terraform; terraform show
+
 apply:
 	cd terraform; terraform apply
 
