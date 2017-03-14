@@ -1,0 +1,79 @@
+{
+  "id": "click-count",
+  "apps": [
+    {
+      "id": "web",
+      "dependencies": ["redis"],
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "xebiafrance/uo-click-count",
+          "forcePullImage": true,
+          "network": "BRIDGE",
+          "portMappings": [
+            { "containerPort": 8080, "hostPort": 0, "servicePort": 8080, "protocol": "tcp" }
+          ]
+        }
+      },
+      "labels": {
+        "HAPROXY_0_VHOST": "click-count.uo.techx.fr"
+      },
+      "cpus": 0.2,
+      "mem": 256.0,
+      "instances": 3,
+      "healthChecks": [
+        {
+          "protocol": "MESOS_HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 120,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 10,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    },
+    {
+      "id": "redis",
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "redis",
+          "forcePullImage": true,
+          "network": "BRIDGE",
+          "portMappings": [
+            { "containerPort": 3306, "hostPort": 0, "servicePort": 3306, "protocol": "tcp" }
+          ]
+        },
+        "volumes": [
+          {
+            "containerPath": "/data",
+            "hostPath": "/shared/click-count/data",
+            "mode": "RW"
+          }
+        ]
+      },
+      "labels": {
+        "MARATHON_SINGLE_INSTANCE_APP": "true"
+      },
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 0
+      },
+      "args": ["redis-server", "--appendonly yes"],
+      "cpus": 0.5,
+      "mem": 256.0,
+      "instances": 1,
+      "healthChecks": [
+        {
+          "protocol": "COMMAND",
+          "command": { "value": "redis-cli INFO" },
+          "gracePeriodSeconds": 3,
+          "intervalSeconds": 10,
+          "timeoutSeconds": 10,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    }
+  ]
+}

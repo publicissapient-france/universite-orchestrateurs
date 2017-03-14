@@ -1,0 +1,60 @@
+{
+  "containers": [
+    {
+      "artifacts": [],
+      "endpoints": [],
+      "environment": {},
+      "exec": {
+        "command": {
+          "shell": "sleep 1000"
+        }
+      },
+      "healthCheck": null,
+      "image": null,
+      "labels": {},
+      "lifecycle": null,
+      "name": "sleep1",
+      "resources": {
+        "cpus": 0.1,
+        "disk": 0,
+        "gpus": 0,
+        "mem": 32
+      },
+      "user": null,
+      "volumeMounts": []
+    }
+  ],
+  "environment": {},
+  "id": "/simplepod2",
+  "labels": {},
+  "networks": [
+    {
+      "labels": {},
+      "mode": "host",
+      "name": null
+    }
+  ],
+  "scaling": {
+    "instances": 2,
+    "kind": "fixed",
+    "maxInstances": null
+  },
+  "scheduling": {
+    "backoff": {
+      "backoff": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelay": 3600
+    },
+    "placement": {
+      "acceptedResourceRoles": [],
+      "constraints": []
+    },
+    "upgrade": {
+      "maximumOverCapacity": 1,
+      "minimumHealthCapacity": 1
+    }
+  },
+  "secrets": {},
+  "user": null,
+  "volumes": []
+}
