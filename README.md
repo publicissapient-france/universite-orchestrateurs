@@ -8,7 +8,7 @@
 - `make provision` provisionne les machines avec ansible en passant par le bastion`
 
 Utilitaires:
-- `./uopen.js prometheus` ouvre l'url du service prometheus configuré dans **application/services.json**
+- `./uopen.js prometheus` ouvre l'url du service prometheus configuré dans **services.json**
 
 ## Connection ssh 
 

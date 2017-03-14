@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 let fs = require('fs');
 
-let input ="applications/services.json";
+let input ="services.json";
 
 let services = JSON.parse(fs.readFileSync(input, 'utf8'));
 
