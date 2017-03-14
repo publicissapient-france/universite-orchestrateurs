@@ -16,7 +16,7 @@
         }
       },
       "labels": {
-        "HAPROXY_0_VHOST": "click-count.uo.techx.fr"
+        "HAPROXY_0_VHOST": "click-count.mesos.uo.techx.fr"
       },
       "cpus": 0.2,
       "mem": 256.0,
