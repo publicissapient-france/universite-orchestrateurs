@@ -10,6 +10,9 @@
           "image": "xebiafrance/uo-click-count",
           "forcePullImage": true,
           "network": "BRIDGE",
+          "parameters": [
+            { "key": "add-host", "value": "redis:172.17.0.1" }
+          ],
           "portMappings": [
             { "containerPort": 8080, "hostPort": 0, "servicePort": 8080, "protocol": "tcp" }
           ]
@@ -42,7 +45,7 @@
           "forcePullImage": true,
           "network": "BRIDGE",
           "portMappings": [
-            { "containerPort": 3306, "hostPort": 0, "servicePort": 3306, "protocol": "tcp" }
+            { "containerPort": 6379, "hostPort": 0, "servicePort": 6379, "protocol": "tcp" }
           ]
         },
         "volumes": [
