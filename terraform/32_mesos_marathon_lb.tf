@@ -29,9 +29,9 @@ resource "aws_elb" "marathonlb" {
   }
 }
 
-resource "aws_route53_record" "goapp" {
+resource "aws_route53_record" "mesosdns" {
   zone_id = "${data.aws_route53_zone.xebia_public_dns.id}"
-  name    = "*.mesosuniv"
+  name    = "*.mesos.${var.public_subdomain}"
   type    = "A"
 
   alias {
