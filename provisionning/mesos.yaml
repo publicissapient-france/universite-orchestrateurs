@@ -35,3 +35,6 @@
       zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
     - role: marathon-lb
       marathon_hosts : "{{groups['mesos-master']}}"
+  tasks:
+    - debug: msg=Hello!
+      tags: WIP
