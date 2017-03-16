@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  registry:
+    image: registry:2.6.0
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=5000"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.frontend.rule=Host:registry.swarm.uo.techx.fr"
+    volumes:
+      - registry-volume:/var/lib/registry
+    networks:
+      - traefik-net
+    environment:
+      REGISTRY_LOG_LEVEL: warn
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+      REGISTRY_HTTP_SECRET: 10C261BB-7D73-4CDD-84AE-DF7620BCEF04
+
+volumes:
+  registry-volume:
+
+networks:
+  traefik-net:
+    external: true
