@@ -19,8 +19,4 @@ public class Application extends ResourceConfig {
             bind(ClickRepository.class).to(ClickRepository.class);
         }
     }
-
 }
-
-
-
