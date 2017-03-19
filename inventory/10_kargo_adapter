@@ -6,7 +6,6 @@ kubernetes-master
 kubernetes-master
 
 [kube-node:children]
-kubernetes-master
 kubernetes-worker
 
 [k8s-cluster:children]

@@ -13,14 +13,16 @@ resource "aws_instance" "kubernetes-master" {
   iam_instance_profile = "${aws_iam_instance_profile.kubernetes-master.id}"
 
   vpc_security_group_ids = [
+    "${aws_security_group.kubernetes_cluster.id}",
     "${aws_security_group.allow_all.id}",
-    "${aws_security_group.allow_prometheus.id}",
+    "${aws_security_group.allow_prometheus.id}"
   ]
 
   tags {
     Name  = "${var.project_name} - kubernetes master ${count.index + 1}"
     Group = "${var.project_name}"
     Owner = "${var.owner}"
+    KubernetesCluster  = "${var.cluster_id}"
   }
 }
 

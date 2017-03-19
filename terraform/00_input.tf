@@ -87,3 +87,8 @@ provider "aws" {
 
 variable "vpc_id" {}
 variable "project_name" {}
+
+variable "cluster_id" {
+  type = "string"
+  description = "kubernetes cluster id"
+}
