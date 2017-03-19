@@ -11,10 +11,10 @@ public class Configuration {
 
     public Configuration() {
 
-        String envHost = System.getenv("REDIS_HOST");
+        String envHost = System.getenv("CUSTOM_REDIS_HOST");
         redisHost = (envHost != null && !envHost.isEmpty())  ? envHost : "redis";
 
-        String envPort = System.getenv("REDIS_PORT");
+        String envPort = System.getenv("CUSTOM_REDIS_PORT");
         redisPort = (envPort != null && !envPort.isEmpty())  ? Integer.valueOf(envPort) : 6379;
 
         redisConnectionTimeout = 2000;
