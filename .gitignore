@@ -1,7 +1,8 @@
 .idea
-inventory
+inventory/00_hosts
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 mesos-starter
 mesos-starter.pub
 ssh_config
+*.retry

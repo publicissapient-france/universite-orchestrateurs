@@ -5,26 +5,26 @@ if (process.argv.length < 3) {
     process.exit(1);
 }
 
-var input = process.argv[2];
-var output = null;
+let input = process.argv[2];
+let output = null;
 if (process.argv.length == 4) {
     output = process.argv[3];
 }
 
-var fs = require('fs');
-var config = JSON.parse(fs.readFileSync(input, 'utf8'));
-var resources = config.modules[0].resources;
-var ansible = {};
-var attributes = ['public_ip', 'private_ip', 'type', 'instance_type'];
+let fs = require('fs');
+let config = JSON.parse(fs.readFileSync(input, 'utf8'));
+let resources = config.modules[0].resources;
+let ansible = {};
+const attributes = ['public_ip', 'private_ip', 'type', 'instance_type'];
 
-for (var key in resources) {
-    var resource = resources[key];
+for (let key in resources) {
+    let resource = resources[key];
     if (resource.type == 'aws_instance') {
 
-        var host = resource.primary ? resource.primary.attributes : resource.tainted.attributes;
-        var myRegexp = /aws_instance\.([^.]*)/g;
-        var match = myRegexp.exec(key);
-        var type = match[1];
+        let host = resource.primary ? resource.primary.attributes : resource.tainted.attributes;
+        let myRegexp = /aws_instance\.([^.]*)/g;
+        let match = myRegexp.exec(key);
+        let type = match[1];
         if (match) {
             host.type = type;
             if (ansible[type] == null) {
@@ -39,7 +39,7 @@ function hostname(type,index){
     return `${type.replace('_','-')}${index+1}.private`;
 }
 
-var inventory = "";
+let inventory = "";
 ssh_config = '';
 for (let key in ansible) {
     inventory += "[" + key + "]\n";

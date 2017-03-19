@@ -1,6 +1,15 @@
 version: "3"
 services:
+
   test:
     image: xebiafrance/uo-test
-    ports:
-     - "8888:80"
+    networks:
+      - traefik-net
+    deploy:
+      replicas: 2
+    labels:
+      - traefik.port=80
+
+networks:
+  traefik-net:
+    external: true

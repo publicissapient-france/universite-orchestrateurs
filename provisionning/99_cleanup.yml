@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Remove python utils
+    pip:
+      name: "{{ item }}"
+      state: absent
+    with_items:
+      - docker
+      - docker-py
+      - docker-compose

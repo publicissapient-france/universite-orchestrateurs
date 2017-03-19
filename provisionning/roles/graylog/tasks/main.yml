@@ -15,10 +15,12 @@
           environment:
             GRAYLOG_PASSWORD_SECRET: somepasswordpepper
             GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-            GRAYLOG_WEB_ENDPOINT_URI: "http://{{ hostvars[inventory_hostname]['public_ip'] }}:9000/api"
+            GRAYLOG_REST_TRANSPORT_URI: "http://{{ hostvars[inventory_hostname]['public_ip'] }}:9000/api"
           depends_on:
             - mongo
             - elasticsearch
           ports:
             - "9000:9000"
             - "12201:12201/udp"
+            - "12900:12900"
+            - "1514/udp:1514/udp"

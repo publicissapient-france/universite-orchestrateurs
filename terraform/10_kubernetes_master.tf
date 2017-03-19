@@ -8,6 +8,9 @@ resource "aws_instance" "kubernetes-master" {
 
   associate_public_ip_address = true
   subnet_id                   = "${aws_subnet.kubernetes-master.id}"
+  private_ip                  = "${cidrhost(aws_subnet.kubernetes-master.cidr_block,count.index + 5 )}"
+
+  iam_instance_profile = "${aws_iam_instance_profile.kubernetes-master.id}"
 
   vpc_security_group_ids = [
     "${aws_security_group.allow_all.id}",
@@ -59,4 +62,58 @@ resource "aws_route53_record" "kubernetes-master-public" {
   records = [
     "${element(aws_instance.kubernetes-master.*.public_ip, count.index)}",
   ]
+}
+
+resource "aws_iam_instance_profile" "kubernetes-master" {
+  name  = "${var.iam_prefix}_kubernetes_master_profile"
+  roles = ["${aws_iam_role.kubernetes_master_role.name}"]
+
+  provisioner "local-exec" {
+    command = "sleep 90"
+  }
+}
+
+resource "aws_iam_role" "kubernetes_master_role" {
+  name = "${var.iam_prefix}_kubernetes_master_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "ec2.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "kubernetes_master_policy" {
+  name = "${var.iam_prefix}_kubernetes_master_policy"
+  role = "${aws_iam_role.kubernetes_master_role.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["ec2:*"],
+      "Resource": ["*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["elasticloadbalancing:*"],
+      "Resource": ["*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }

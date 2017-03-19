@@ -1,6 +1,7 @@
 ---
-- hosts: kubernetes_*
-  become: true
+- hosts: localhost
+  gather_facts: False
   roles:
-    - kubernetes
+    - { role: kargo-defaults}
+    - { role: bastion-ssh-config, tags: ["localhost", "bastion"]}
 

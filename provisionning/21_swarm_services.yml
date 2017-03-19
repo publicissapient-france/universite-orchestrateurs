@@ -1,0 +1,45 @@
+---
+
+
+- hosts: swarm-master[0]
+  become: true
+  tasks:
+
+    - name: traefik status
+      shell: docker service inspect traefik
+      register: traefik_status
+      ignore_errors: yes
+      tags: service
+
+    - block:
+      - shell: docker network inspect traefik-net || docker network create --driver=overlay traefik-net
+
+      - name: deploy traefik
+        shell: >
+          docker service create \
+           --name traefik \
+           --constraint=node.role==manager \
+           --publish 80:80 --publish 8080:8080 \
+           --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
+           --network traefik-net \
+           traefik \
+           --docker \
+           --docker.swarmmode \
+           --docker.domain="swarm.{{ public_domain }}" \
+           --docker.watch \
+           --web
+
+      when: traefik_status.rc != 0
+      tags: service
+
+    - name: deploy Portainer
+      shell: >
+        docker service inspect portainer || docker service create \
+          --name portainer \
+          --constraint 'node.role == manager' \
+          --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+          --network traefik-net \
+          --label traefik.port=9000 \
+          portainer/portainer \
+          -H unix:///var/run/docker.sock
+      tags: service

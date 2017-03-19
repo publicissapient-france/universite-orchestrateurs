@@ -5,6 +5,12 @@
 #   export AWS_REGION=eu-central-1
 #
 
+variable "iam_prefix" {
+  type        = "string"
+  description = "Prefix name for IAM profiles"
+  default     = "uo"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 

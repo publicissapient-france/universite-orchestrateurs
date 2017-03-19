@@ -1,0 +1,14 @@
+
+[kube-master:children]
+kubernetes-master
+
+[etcd:children]
+kubernetes-master
+
+[kube-node:children]
+kubernetes-master
+kubernetes-worker
+
+[k8s-cluster:children]
+kube-node
+kube-master

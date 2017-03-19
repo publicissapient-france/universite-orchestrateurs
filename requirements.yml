@@ -1,2 +1,6 @@
-- src: emccode.rexray
+
 - src: williamyeh.prometheus
+
+- src: https://github.com/tauffredou/ansible-role-rexray
+  version: master
+  name: emccode.rexray

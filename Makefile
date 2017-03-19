@@ -13,7 +13,7 @@ plan:
 	cd terraform; terraform plan
 
 inventory:
-	./terraform2ansible.js terraform/terraform.tfstate inventory
+	./terraform2ansible.js terraform/terraform.tfstate inventory/00_hosts
 
 provision: inventory
 	ansible-playbook -i inventory provisionning/playbook.yml
