@@ -2,7 +2,7 @@ version: "3"
 
 services:
   registry:
-    image: registry:2.6.0
+    image: registry:2.5.1
     deploy:
       replicas: 1
       labels:
@@ -17,9 +17,24 @@ services:
       REGISTRY_LOG_LEVEL: warn
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
       REGISTRY_HTTP_SECRET: 10C261BB-7D73-4CDD-84AE-DF7620BCEF04
+  jenkins:
+    image: jenkins:2.32.3
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=8080"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.frontend.rule=Host:jenkins.swarm.uo.techx.fr"
+    volumes:
+      - jenkins-volume:/var/jenkins_home
+    networks:
+      - traefik-net
 
 volumes:
   registry-volume:
+    driver: rexray/ebs
+  jenkins-volume:
+    driver: rexray/ebs
 
 networks:
   traefik-net:
