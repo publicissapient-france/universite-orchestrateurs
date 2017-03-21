@@ -4,6 +4,8 @@
   "grafana": "http://prometheus1.uo.techx.fr:3000",
   "marathon": "http://mesos-master1.uo.techx.fr:8080",
   "portainer": "http://portainer.swarm.uo.techx.fr",
+  "jenkins-swarm" : "http://jenkins.swarm.uo.techx.fr/"
+  "registry-swarm" : "http://registry.swarm.uo.techx.fr/"
   "traefik": "http://swarm-worker1.uo.techx.fr:8080",
   "click-count-swarm": "http://click-count.swarm.uo.techx.fr",
   "click-count-mesos": "http://click-count.mesos.uo.techx.fr"
