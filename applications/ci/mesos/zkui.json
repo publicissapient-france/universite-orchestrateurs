@@ -1,0 +1,36 @@
+{
+  "id": "zkui",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "registry.mesos.uo.techx.fr/xebiafrance/zkui",
+      "forcePullImage": true,
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 9090, "hostPort": 0, "servicePort": 9876, "protocol": "tcp" }
+      ]
+    }
+  },
+  "env": {
+    "ZK_SERVER": "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181",
+    "USER_SET": "{\"users\": [{ \"username\":\"admin\" , \"password\":\"admin\",\"role\": \"ADMIN\" }]}",
+    "LOGIN_MESSAGE": "Please login using admin account."
+  },
+  "labels": {
+    "HAPROXY_0_VHOST": "zkui.mesos.uo.techx.fr"
+  },
+  "cpus": 1,
+  "mem": 1024.0,
+  "instances": 1,
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "gracePeriodSeconds": 3,
+      "intervalSeconds": 10,
+      "portIndex": 0,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}
