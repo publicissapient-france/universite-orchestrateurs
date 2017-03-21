@@ -1,0 +1,101 @@
+{
+  "id": "ci",
+  "apps": [
+    {
+      "id": "registry",
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "registry:2.5.1",
+          "forcePullImage": true,
+          "network": "BRIDGE",
+          "portMappings": [
+            { "containerPort": 5000, "hostPort": 0, "servicePort": 5000, "protocol": "tcp" }
+          ]
+        },
+        "volumes": [
+          {
+            "containerPath": "/var/lib/registry",
+            "hostPath": "/shared/ci/registry",
+            "mode": "RW"
+          }
+        ]
+      },
+      "env": {
+        "REGISTRY_LOG_LEVEL": "warn",
+        "REGISTRY_STORAGE_DELETE_ENABLED": "true",
+        "REGISTRY_HTTP_SECRET": "10C261BB-7D73-4CDD-84AE-DF7620BCEF04"
+      },
+      "labels": {
+        "HAPROXY_0_VHOST": "registry.mesos.uo.techx.fr"
+      },
+      "cpus": 0.5,
+      "mem": 256.0,
+      "instances": 1,
+      "constraints": [["hostname", "CLUSTER", "34.252.13.176"]],
+      "healthChecks": [
+        {
+          "protocol": "MESOS_HTTP",
+          "path": "/v2/",
+          "gracePeriodSeconds": 3,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 10,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    },
+    {
+      "id": "jenkins",
+      "dependencies": ["registry"],
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "registry.mesos.uo.techx.fr/xebiafrance/jenkins:2.32.3",
+          "forcePullImage": true,
+          "network": "BRIDGE",
+          "parameters": [
+            { "key": "add-host", "value": "mesos-master:$" }
+          ],
+          "portMappings": [
+            { "containerPort": 8080, "hostPort": 0, "servicePort": 8080, "protocol": "tcp" },
+            { "containerPort": 50000, "hostPort": 0, "servicePort": 50000, "protocol": "tcp" },
+            { "containerPort": 45000, "hostPort": 0, "servicePort": 45000, "protocol": "tcp" }
+          ]
+        },
+        "env": {
+          "JENKINS_SLAVE_AGENT_PORT": "50000"
+        },
+        "volumes": [
+          {
+            "containerPath": "/var/jenkins_home",
+            "hostPath": "/shared/ci/jenkins",
+            "mode": "RW"
+          }
+        ]
+      },
+      "labels": {
+        "HAPROXY_0_VHOST": "jenkins.mesos.uo.techx.fr",
+        "MARATHON_SINGLE_INSTANCE_APP": "true"
+      },
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0,
+        "maximumOverCapacity": 0
+      },
+      "cpus": 1,
+      "mem": 1024.0,
+      "instances": 1,
+      "constraints": [["hostname", "CLUSTER", "34.252.13.176"]],
+      "healthChecks": [
+        {
+          "protocol": "COMMAND",
+          "command": { "value": "curl --silent --fail --write-out '%{http_code}' http://localhost:8080/ --output /dev/null | grep --line-regexp --extended-regexp '200|403'" },
+          "gracePeriodSeconds": 180,
+          "intervalSeconds": 10,
+          "timeoutSeconds": 10,
+          "maxConsecutiveFailures": 3
+        }
+      ]
+    }
+  ]
+}
