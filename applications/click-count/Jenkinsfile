@@ -2,6 +2,7 @@ node("maven3") {
 	checkout scm
 
     stage('Build') {
+    	sh 'pwd'
         sh 'mvn clean package'
     }
     stage('Results') {
