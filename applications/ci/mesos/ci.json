@@ -54,9 +54,6 @@
           "image": "registry.mesos.uo.techx.fr/xebiafrance/jenkins:2.32.3",
           "forcePullImage": true,
           "network": "BRIDGE",
-          "parameters": [
-            { "key": "add-host", "value": "mesos-master:$" }
-          ],
           "portMappings": [
             { "containerPort": 8080, "hostPort": 0, "servicePort": 8080, "protocol": "tcp" },
             { "containerPort": 50000, "hostPort": 0, "servicePort": 50000, "protocol": "tcp" },
