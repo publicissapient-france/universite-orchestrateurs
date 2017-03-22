@@ -36,5 +36,11 @@
     - role: marathon-lb
       marathon_hosts : "{{groups['mesos-master']}}"
   tasks:
-    - debug: msg=Hello!
-      tags: WIP
+    - name: add registry url to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1'
+        line: '127.0.0.1 localhost registry.mesos.uo.techx.fr'
+        owner: root
+        group: root
+        mode: 0644
