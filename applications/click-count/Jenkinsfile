@@ -1,4 +1,6 @@
 node("maven3") {
+	checkout scm
+
     stage('Build') {
         sh 'mvn clean package'
     }
