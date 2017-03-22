@@ -7,7 +7,7 @@
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "xebiafrance/uo-click-count:{{.VERSION}}",
+          "image": "registry.mesos.uo.techx.fr/xebiafrance/click-count:{{.VERSION}}",
           "forcePullImage": true,
           "network": "BRIDGE",
           "parameters": [
