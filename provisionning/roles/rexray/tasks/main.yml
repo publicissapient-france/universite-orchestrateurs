@@ -1,0 +1,6 @@
+- name: Install rexray
+  shell: curl -sSL https://dl.bintray.com/emccode/rexray/install | sh -s -- stable
+
+- name: Configure rexray
+  template: src=config.yml.j2 dest=/etc/rexray/config.yml mode=0755 owner=root group=root
+  notify: restart rexray

@@ -1,0 +1,5 @@
+---
+- name: restart rexray
+  service:
+    name: rexray
+    state: restarted
