@@ -1,25 +1,32 @@
 node("maven3") {
 	checkout scm
 
-	dir(applications/click-count) {
-		stage('Build') {
-            	sh 'pwd'
-                sh 'mvn clean package'
+	stage('Build') {
+		dir('applications/click-count') {
+			sh 'mvn clean package'
 		}
+	}
 
-		stage('Results') {
+	stage('Results') {
+		dir('applications/click-count') {
 			archive 'target/clickCount.war'
 		}
+	}
 
-		stage('Build image') {
+	stage('Build image') {
+		dir('applications/click-count') {
 			sh "docker build -t registry.mesos.uo.techx.fr/xebiafrance/click-count:${version} ."
 		}
+	}
 
-		stage('Push image') {
+	stage('Push image') {
+		dir('applications/click-count') {
 			sh "docker push registry.mesos.uo.techx.fr/xebiafrance/click-count:${version}"
 		}
+	}
 
-		stage('Deploy on Staging') {
+	stage('Deploy on Staging') {
+		dir('applications/click-count') {
 			sh "sed -i 's#{{.VERSION}}#${version}#' marathon.json"
 			sh "curl -X PUT -H 'Content-type: application/json' http://mesos-master1.private:8080/v2/groups -d@marathon.json"
 		}
