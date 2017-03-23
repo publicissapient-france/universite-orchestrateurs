@@ -1,6 +1,13 @@
 node("maven3") {
 	checkout scm
 
+	def version
+
+	stage('Preparation') {
+		sh 'git rev-parse HEAD > GIT_COMMIT'
+		version = readFile('GIT_COMMIT').take(6)
+	}
+
 	stage('Build') {
 		dir('applications/click-count') {
 			sh 'mvn clean package'
