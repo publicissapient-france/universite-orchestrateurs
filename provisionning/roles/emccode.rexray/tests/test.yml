@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  remote_user: root
-  sudo: true
-  roles:
-    - ansible-role-rexray

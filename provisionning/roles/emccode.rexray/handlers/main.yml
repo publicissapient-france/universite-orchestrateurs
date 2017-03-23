@@ -1,6 +1,0 @@
----
-- name: restart rexray
-  service:
-    name: rexray
-    state: restarted
-  when: rexray_service
