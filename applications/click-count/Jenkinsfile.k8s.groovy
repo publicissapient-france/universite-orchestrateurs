@@ -1,14 +1,18 @@
-podTemplate(label: 'mavenPod', inheritFrom: 'mypod' , containers: [
+podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
         containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+        containerTemplate(name: 'ssh', image: 'xebiafrance/ssh:alpine', ttyEnabled: true, command: 'cat'),
 ]) {
 
     node('mavenPod') {
-        checkout scm
 
-        def version
-        stage('Preparation') {
-            sh 'git rev-parse HEAD > GIT_COMMIT'
-            version = readFile('GIT_COMMIT').take(6)
+        container('ssh') {
+            checkout scm
+
+            def version
+            stage('Preparation') {
+                sh 'env'
+//            version = readFile('GIT_COMMIT').take(6)
+            }
         }
 
         stage('Build') {
