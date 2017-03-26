@@ -3,7 +3,7 @@
 - hosts: swarm-*
   become: true
   roles:
-      - role: docker
+    - role: docker
 
 # determine the status of each manager node and break them
 # into two groups:
