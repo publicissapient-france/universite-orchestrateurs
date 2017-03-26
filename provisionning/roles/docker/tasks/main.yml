@@ -24,6 +24,18 @@
   with_items:
     - docker-ce
 
+- name: add localhost to Docker daemon hosts
+  lineinfile:
+    dest: /lib/systemd/system/docker.service
+    regexp: '^ExecStart='
+    line: 'ExecStart=/usr/bin/dockerd -H tcp://localhost:2375 -H fd://'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload systemctl daemon
+    - restart docker
+
 - name: docker daemon config
   template: src="templates/daemon.json.j2"  dest="/etc/docker/daemon.json"
   notify:

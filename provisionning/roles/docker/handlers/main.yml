@@ -1,3 +1,7 @@
 ---
+- name: Reload systemctl daemon
+  command: systemctl daemon-reload
+  when: ansible_service_mgr == 'systemd'
+
 - name: restart docker
   service: name=docker state=restarted
