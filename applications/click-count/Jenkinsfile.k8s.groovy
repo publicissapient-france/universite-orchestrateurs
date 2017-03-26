@@ -5,8 +5,9 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
 
     node('mavenPod') {
 
+        git 'https://github.com/xebia-france/universite-orchestrateurs.git'
         container('ssh') {
-            checkout scm
+//            checkout scm
 
             def version
             stage('Preparation') {
