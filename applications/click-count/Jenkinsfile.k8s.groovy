@@ -19,14 +19,14 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
         stage('Build') {
             container('maven') {
                 dir('applications/click-count') {
-                    sh 'mvn clean package'
+                    sh 'cd applications/click-count && mvn clean package'
                 }
             }
         }
 
         stage('Results') {
             dir('applications/click-count') {
-                archive 'target/clickCount.war'
+                archive 'cd applications/click-count && target/clickCount.war'
             }
         }
 
