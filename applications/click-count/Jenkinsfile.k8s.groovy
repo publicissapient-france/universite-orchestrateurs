@@ -5,7 +5,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
 
     node('mavenPod') {
 
-        git url: 'git@github.com:xebia-france/universite-orchestrateurs.git', credentialsId: 'tauffredou'
+        git url: 'https://github.com/xebia-france/universite-orchestrateurs.git', credentialsId: 'tauffredou2'
         container('ssh') {
 //            checkout scm
 
