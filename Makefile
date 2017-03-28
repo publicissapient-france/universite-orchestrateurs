@@ -13,7 +13,7 @@ plan:
 	cd terraform; terraform plan
 
 inventory:
-	./terraform2ansible.js terraform/terraform.tfstate inventory/00_hosts
+	./scripts/terraform2ansible.js terraform/terraform.tfstate inventory/00_hosts
 
 provision: inventory
 	ansible-playbook -i inventory provisionning/playbook.yml
@@ -22,7 +22,7 @@ destroy:
 	cd terraform; terraform destroy
 
 info:
-	./terraform2ansible.js terraform/terraform.tfstate
+	./scripts/terraform2ansible.js terraform/terraform.tfstate
 
 get:
 	aws s3 cp s3://xebia-terraform-states/universite-orcherstrateur/terraform.tfstate   terraform/terraform.tfstate
