@@ -14,7 +14,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
 
         stage('Build') {
             container('maven') {
-                sh 'cd applications/click-count && mvn clean package'
+                sh 'cd applications/click-count && mvn -q -B clean package'
             }
         }
 
