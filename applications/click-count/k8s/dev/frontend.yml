@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: clickcount-deploy
 spec:
-  replicas: 1
+  replicas:
   template:
     metadata:
       labels:
