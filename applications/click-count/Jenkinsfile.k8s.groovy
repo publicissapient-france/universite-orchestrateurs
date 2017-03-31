@@ -36,7 +36,6 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
 
         stage('Deploy on Staging') {
             dir('applications/click-count') {
-                sh "kubectl apply -f k8s.yml"
                 sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
                 sh "sed -i.bak 's#__FRONTEND_IMAGE__#${imageTag}#' ./k8s/dev/*.yaml"
                 sh "kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/"
