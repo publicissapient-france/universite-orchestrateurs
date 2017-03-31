@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: clickcount
+        role: frontend
     spec:
       containers:
       - name: clickcount

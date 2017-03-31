@@ -7,7 +7,8 @@ spec:
   template:
     metadata:
       labels:
-        app: redis
+        app: clickcount
+        role: database
     spec:
       containers:
       - name: redis
