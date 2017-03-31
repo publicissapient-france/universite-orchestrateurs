@@ -1,8 +1,11 @@
-podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
-        containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-        containerTemplate(name: 'ssh', image: 'xebiafrance/ssh:alpine', ttyEnabled: true, command: 'cat'),
-        containerTemplate(name: 'docker', image: 'docker:stable', ttyEnabled: true, command: 'cat'),
-]) {
+podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
+        containers: [
+                containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'ssh', image: 'xebiafrance/ssh:alpine', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'docker', image: 'docker:stable', ttyEnabled: true, command: 'cat'),
+        ],
+        volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
+) {
 
     node('mavenPod') {
 
