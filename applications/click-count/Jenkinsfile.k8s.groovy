@@ -12,7 +12,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
         def version
         sh "git rev-parse --short HEAD > GIT_COMMIT"
         version = readFile('GIT_COMMIT').take(6)
-        def imageTag = "10.233.57.46:5000/xebiafrance/uo-click-count:${version}"
+        String imageTag = "10.233.57.46:5000/xebiafrance/uo-click-count:${version}"
 
         stage('Build') {
             container('maven') {
