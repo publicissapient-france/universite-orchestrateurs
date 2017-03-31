@@ -37,8 +37,8 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
 
         stage('Deploy on Staging') {
             dir('applications/click-count') {
-                sh "sed -i 's#{{.VERSION}}#${version}#' k8s.json"
-                sh "kubectl apply -f k8s.json"
+                sh "sed -i 's#{{.VERSION}}#${version}#' k8s.yml"
+                sh "kubectl apply -f k8s.yml"
             }
         }
 
