@@ -27,9 +27,9 @@ public class ClickRepository {
     @Inject
     public ClickRepository(Configuration configuration) {
         Config config = new Config();
-        String redisAddr = String.format("%s:%d", configuration.redisHost, configuration.redisPort)
+        String redisAddr = String.format("%s:%d", configuration.redisHost, configuration.redisPort);
         config.useSingleServer().setAddress(redisAddr);
-        log.info("Using redis: " + redisAddr)
+        log.info("Using redis: " + redisAddr);
         redisson = Redisson.create(config);
         redisClient = new RedisClient(new NioEventLoopGroup(), NioSocketChannel.class, configuration.redisHost, configuration.redisPort, configuration.redisConnectionTimeout);
     }
