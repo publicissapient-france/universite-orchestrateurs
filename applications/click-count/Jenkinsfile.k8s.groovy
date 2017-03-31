@@ -12,6 +12,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod', containers: [
         container('ssh') {
 //            checkout scm
             stage('Preparation') {
+                sh "git rev-parse --short HEAD > GIT_COMMIT"
                 version = readFile('GIT_COMMIT').take(6)
             }
         }
