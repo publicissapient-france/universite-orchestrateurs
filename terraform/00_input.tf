@@ -89,6 +89,6 @@ variable "vpc_id" {}
 variable "project_name" {}
 
 variable "cluster_id" {
-  type = "string"
+  type        = "string"
   description = "kubernetes cluster id"
 }

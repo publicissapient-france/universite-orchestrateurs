@@ -13,8 +13,9 @@ resource "aws_instance" "swarm-master" {
   subnet_id                   = "${aws_subnet.swarm-master.id}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.allow_all.id}",
+    "${aws_security_group.allow_ssh.id}",
     "${aws_security_group.allow_prometheus.id}",
+    "${aws_security_group.allow_vpc.id}",
   ]
 
   tags {

@@ -26,7 +26,7 @@ resource "aws_instance" "rexray" {
   }
 }
 
-resource "aws_subnet" "rexray" { 
+resource "aws_subnet" "rexray" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "${cidrsubnet(aws_vpc.main.cidr_block, 8, 9)}"
 

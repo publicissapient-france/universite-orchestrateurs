@@ -11,16 +11,17 @@ resource "aws_instance" "kubernetes-worker" {
   iam_instance_profile = "${aws_iam_instance_profile.kubernetes-worker.id}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.allow_all.id}",
+    "${aws_security_group.allow_ssh.id}",
+    "${aws_security_group.allow_vpc.id}",
     "${aws_security_group.allow_prometheus.id}",
-    "${aws_security_group.kubernetes_cluster.id}"
+    "${aws_security_group.kubernetes_cluster.id}",
   ]
 
   tags {
-    Name  = "${var.project_name} - kubernetes worker ${count.index + 1}"
-    Group = "${var.project_name}"
-    Owner = "${var.owner}"
-    KubernetesCluster  = "${var.cluster_id}"
+    Name              = "${var.project_name} - kubernetes worker ${count.index + 1}"
+    Group             = "${var.project_name}"
+    Owner             = "${var.owner}"
+    KubernetesCluster = "${var.cluster_id}"
   }
 }
 

@@ -10,7 +10,8 @@ resource "aws_instance" "mesos-worker" {
   subnet_id                   = "${aws_subnet.mesos-worker.id}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.allow_all.id}",
+    "${aws_security_group.allow_ssh.id}",
+    "${aws_security_group.allow_vpc.id}",
     "${aws_security_group.allow_prometheus.id}",
   ]
 

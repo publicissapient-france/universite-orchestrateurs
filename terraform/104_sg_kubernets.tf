@@ -4,7 +4,7 @@ resource "aws_security_group" "kubernetes_cluster" {
   description = "kubernetes cluster security group"
 
   tags {
-    Name = "${var.project_name} - KubernetesCluster"
+    Name              = "${var.project_name} - KubernetesCluster"
     KubernetesCluster = "${var.cluster_id}"
   }
 }
