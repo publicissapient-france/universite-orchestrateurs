@@ -1,8 +1,6 @@
 podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
         containers: [
                 containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-                containerTemplate(name: 'ssh', image: 'xebiafrance/ssh:alpine', ttyEnabled: true, command: 'cat'),
-                containerTemplate(name: 'docker', image: 'docker:stable', ttyEnabled: true, command: 'cat'),
         ],
         volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
 ) {
@@ -14,6 +12,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
         def version
         sh "git rev-parse --short HEAD > GIT_COMMIT"
         version = readFile('GIT_COMMIT').take(6)
+        def imageTag = "xebiafrance/uo-click-count:${version}"
 
         stage('Build') {
             container('maven') {
@@ -28,17 +27,22 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
         }
 
         stage('Build image') {
-            sh "docker build -t 10.233.57.46:5000/xebiafrance/click-count:${version} applications/click-count"
+            sh "docker build -t ${imageTag} applications/click-count"
         }
 
         stage('Push image') {
-            sh "docker push 10.233.57.46:5000/xebiafrance/click-count:${version}"
+            sh "docker push ${imageTag}"
         }
 
         stage('Deploy on Staging') {
             dir('applications/click-count') {
                 sh "sed -i 's#{{.VERSION}}#${version}#' k8s.yml"
                 sh "kubectl apply -f k8s.yml"
+                sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
+                sh "sed -i.bak 's#__FRONTEND_IMAGE__#${imageTag}#' ./k8s/dev/*.yaml"
+                sh "kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/"
+                echo 'To access your environment run `kubectl proxy`'
+                echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
             }
         }
 
