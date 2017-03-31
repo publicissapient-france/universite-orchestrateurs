@@ -37,7 +37,7 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
         stage('Deploy on Staging') {
             dir('applications/click-count') {
                 sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
-                sh "sed -i.bak 's#__FRONTEND_IMAGE__#${imageTag}#' ./k8s/dev/*.yaml"
+                sh "sed -i.bak 's#__FRONTEND_IMAGE__#${imageTag}#' ./k8s/dev/*.yml"
                 sh "kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/"
                 echo 'To access your environment run `kubectl proxy`'
                 echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/clickcount-service:8080/"
