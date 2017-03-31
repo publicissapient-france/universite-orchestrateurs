@@ -89,6 +89,3 @@ kernel_upgrade: false
 
 docker_gelf_address: "udp://prometheus1.private:12201"
 public_domain: "uo.techx.fr"
-
-hyperkube_image_repo: "xebiafrance/hyperkube"
-hyperkube_image_tag: "v1.5.4-rexray"

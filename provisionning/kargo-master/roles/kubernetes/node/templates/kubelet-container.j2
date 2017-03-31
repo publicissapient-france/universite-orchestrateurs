@@ -23,7 +23,6 @@
   -v /var/lib/kubelet:/var/lib/kubelet:shared \
   -v /var/run:/var/run:rw \
   -v {{kube_config_dir}}:{{kube_config_dir}}:ro \
-  -v /etc/rexray:/etc/rexray:ro \
   {{ hyperkube_image_repo }}:{{ hyperkube_image_tag}} \
   ./hyperkube kubelet \
   "$@"
