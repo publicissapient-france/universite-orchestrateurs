@@ -29,13 +29,13 @@ podTemplate(label: 'mavenPod', inheritFrom: 'mypod',
 
         stage('Build image') {
             container('docker') {
-                sh "docker build -t registry.mesos.uo.techx.fr/xebiafrance/click-count:${version} applications/click-count"
+                sh "docker build -t registry-service.ci.svc.cluster.local:5000/xebiafrance/click-count:${version} applications/click-count"
             }
         }
 
         stage('Push image') {
             container('docker') {
-                sh "docker push registry.mesos.uo.techx.fr/xebiafrance/click-count:${version}"
+                sh "docker push registry-service.ci.svc.cluster.local:5000/xebiafrance/click-count:${version}"
             }
         }
 
