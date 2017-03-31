@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+spec:
+  containers:
+  - image: gcr.io/google_containers/test-webserver
+    name: pod-1
+    volumeMounts:
+    - mountPath: /test-pd
+      name: vol01
+  volumes:
+  - name: vol01
+    persistentVolumeClaim:
+      claimName: vol01

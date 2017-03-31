@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testrex
+spec:
+  containers:
+  - name: testrex
+    image: gcr.io/google_containers/test-webserver
+    volumeMounts:
+     - name: vol-rex
+       mountPath: /data
+  volumes:
+  - name: vol-rex
+    flexVolume:
+      driver: rexray/flexrex
+      fsType: ext4
+      options:
+        volumeID: vol-rex
+        forceAttach: "true"
+        forceAttachDelay: "15"
+        size: 1G
