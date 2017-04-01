@@ -19,7 +19,9 @@ Utilitaires:
 Le cli aws est requis pour télécharger la clé ssh et le terraform.state depuis s3 :
 - `pip install awscli` pour install le cli aws
 - `aws configure` pour configurer le cli
-- `make get` pour télécharger les fichiers
+- `make get` pour télécharger les fichiers :
+  - `terraform/terraform.tfstate`, le state de Terraform
+  - `mesos-starter(.pub)`, the keypairs used to connect to instances
 
 ## Rôles ansible
 
