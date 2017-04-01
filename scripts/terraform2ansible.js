@@ -42,7 +42,7 @@ function hostname(type,index){
 let inventory = "";
 ssh_config = '';
 for (let key in ansible) {
-    inventory += "[" + key + "]\n";
+    inventory += "\n[" + key + "]\n";
     ansible[key].forEach(function (host, index) {
         inventory += `${hostname(key,index)}`;
         inventory += ` fqdn="${hostname(key,index)}" `;
