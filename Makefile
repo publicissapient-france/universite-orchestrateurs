@@ -31,7 +31,7 @@ get:
 	chmod 600 mesos-starter
 
 push:
-	aws s3 cp terraform/terraform.tfstate   s3://xebia-terraform-states/universite-orcherstrateur/
-	aws s3 cp mesos-starter                 s3://xebia-terraform-states/universite-orcherstrateur/
-	aws s3 cp mesos-starter.pub             s3://xebia-terraform-states/universite-orcherstrateur/
+	@aws s3 cp terraform/terraform.tfstate   s3://xebia-terraform-states/universite-orcherstrateur/
+	@aws s3 cp mesos-starter                 s3://xebia-terraform-states/universite-orcherstrateur/
+	@aws s3 cp mesos-starter.pub             s3://xebia-terraform-states/universite-orcherstrateur/
 
