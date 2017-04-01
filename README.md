@@ -14,14 +14,18 @@ Utilitaires:
 
 - `ssh-add -K <key>` pour ajouter la clé au ssh-agent
 
-## Prérequis
+## Requirements
 
-Le cli aws est requis pour télécharger la clé ssh et le terraform.state depuis s3 :
-- `pip install awscli` pour install le cli aws
-- `aws configure` pour configurer le cli
-- `make get` pour télécharger les fichiers :
+- Run `make get` to download the following files:
   - `terraform/terraform.tfstate`, le state de Terraform
   - `mesos-starter(.pub)`, the keypairs used to connect to instances
+
+Run the following commands to setup `ansible` (used for deployments) and
+`awscli` (used to download the SSH keypair and terraform.state from AWS S3):
+
+    virtualenv --python=python2 venv
+    source ./venv/bin/activate
+    pip install -r requirements.txt
 
 ## Rôles ansible
 
