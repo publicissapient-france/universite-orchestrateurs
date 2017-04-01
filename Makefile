@@ -1,6 +1,3 @@
-.PHONY: inventory
-
-
 default: plan
 
 show:
@@ -12,7 +9,7 @@ apply:
 plan:
 	cd terraform; terraform plan
 
-inventory:
+inventory::
 	./scripts/terraform2ansible.js terraform/terraform.tfstate inventory/00_hosts
 
 provision: inventory
