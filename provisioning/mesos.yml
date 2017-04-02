@@ -26,7 +26,8 @@
 - hosts: mesos-worker
   become: true
   roles:
-    - role: docker
+    - docker
+    - rexray
 
     - role: JasonGiedymin.mesos
       mesos_hostname:       "{{ public_ip }}"
