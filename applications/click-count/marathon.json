@@ -44,17 +44,14 @@
           "image": "redis",
           "forcePullImage": true,
           "network": "BRIDGE",
+          "parameters": [
+            { "key": "volume-driver", "value": "rexray/ebs" },
+            { "key": "volume", "value": "mesos-click-count-volume:/data" }
+          ],
           "portMappings": [
             { "containerPort": 6379, "hostPort": 0, "servicePort": 6379, "protocol": "tcp" }
           ]
-        },
-        "volumes": [
-          {
-            "containerPath": "/data",
-            "hostPath": "/shared/click-count/data",
-            "mode": "RW"
-          }
-        ]
+        }
       },
       "labels": {
         "MARATHON_SINGLE_INSTANCE_APP": "true"
