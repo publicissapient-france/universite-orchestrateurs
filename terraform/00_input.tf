@@ -41,7 +41,7 @@ variable "public_subdomain" {
 
 resource "aws_key_pair" "access" {
   key_name_prefix = "mesos-starter"
-  public_key      = "${file("${path.module}/../mesos-starter.pub")}"
+  public_key      = "${file("${path.module}/../ssh/mesos-starter.pub")}"
 }
 
 variable "owner" {
