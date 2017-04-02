@@ -5,3 +5,7 @@ terraform/terraform.tfstate.backup
 ssh
 *.retry
 provisioning/roles/williamyeh.prometheus
+provisioning/roles/geerlingguy.java
+provisioning/roles/AnsibleShipyard.ansible-zookeeper
+provisioning/roles/JasonGiedymin.mesos
+provisioning/roles/JasonGiedymin.marathon
