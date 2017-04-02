@@ -106,43 +106,7 @@
         groups: swarm_manager_ips
       with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
 
-    - name: portainer status
-      shell: docker service inspect portainer
-      register: portainer_status
-      tags: service
 
-    - debug: "{{ portainer_status }}"
-      tags: service
-
-    - name: deploy Portainer
-      shell: >
-        docker service create \
-            --name portainer \
-            --publish 9000:9000 \
-            --constraint 'node.role == manager' \
-            --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-            portainer/portainer \
-            -H unix:///var/run/docker.sock
-      when: portainer_status.code == 0
-
-      tags: service
-
-    - name: deploy traefik
-      shell: >
-        docker service create \
-         --name traefik \
-         --constraint=node.role==manager \
-         --publish 80:80 --publish 8080:8080 \
-         --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-         --network traefik-net \
-         traefik \
-         --docker \
-         --docker.swarmmode \
-         --docker.domain=traefik \
-         --docker.watch \
-         --web
-      run_once: true
-      tags: service
 
 # join the manager hosts not yet initialized to the swarm cluster
 - hosts: swarm_manager_bootstrap:!swarm_manager_operational
@@ -171,4 +135,5 @@
         {{ groups['swarm_manager_ips'][0] }}:2377
 
 
-
+- name: Swarm services
+  include: 21_swarm_services.yml
