@@ -4,3 +4,4 @@ terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 ssh
 *.retry
+provisioning/roles/williamyeh.prometheus
