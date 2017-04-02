@@ -36,3 +36,7 @@ push:
 
 sshadd:
 	ssh-add -k ./ssh/mesos-starter
+
+nuke:
+	find . -name '*.retry' -delete
+	rm -rf ./ssh/
