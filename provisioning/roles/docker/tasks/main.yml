@@ -28,7 +28,7 @@
   lineinfile:
     dest: /lib/systemd/system/docker.service
     regexp: '^ExecStart='
-    line: 'ExecStart=/usr/bin/dockerd -H tcp://localhost:2375 -H tcp://172.17.0.1:2375 -H fd://'
+    line: 'ExecStart=/usr/bin/dockerd -H tcp://localhost:2375 -H fd://'
     owner: root
     group: root
     mode: 0644
