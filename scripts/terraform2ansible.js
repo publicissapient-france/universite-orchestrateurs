@@ -42,7 +42,7 @@ function hostname(type,index){
 let inventory = "";
 ssh_config = '';
 for (let key in ansible) {
-    inventory += "[" + key + "]\n";
+    inventory += "\n[" + key + "]\n";
     ansible[key].forEach(function (host, index) {
         inventory += `${hostname(key,index)}`;
         inventory += ` fqdn="${hostname(key,index)}" `;
@@ -94,11 +94,11 @@ if (output) {
         }
     });
 
-    fs.writeFile('ssh_config', ssh_config, function (err) {
+    fs.writeFile('./ssh/ssh_config', ssh_config, function (err) {
         if (err) {
             console.log(err);
         } else {
-            console.log('ssh_config' + " was saved!");
+            console.log('./ssh/ssh_config' + " was saved!");
         }
     });
 } else {

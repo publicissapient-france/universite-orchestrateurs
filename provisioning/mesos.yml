@@ -1,10 +1,10 @@
 ---
 - hosts: mesos-master
   become: true
-  # ansible-galaxy install --roles-path ./provisionning/roles/ geerlingguy.java
-  # ansible-galaxy install --roles-path ./provisionning/roles/ AnsibleShipyard.ansible-zookeeper
-  # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.mesos
-  # ansible-galaxy install --roles-path ./provisionning/roles/ JasonGiedymin.marathon
+  # ansible-galaxy install --roles-path ./provisioning/roles/ geerlingguy.java
+  # ansible-galaxy install --roles-path ./provisioning/roles/ AnsibleShipyard.ansible-zookeeper
+  # ansible-galaxy install --roles-path ./provisioning/roles/ JasonGiedymin.mesos
+  # ansible-galaxy install --roles-path ./provisioning/roles/ JasonGiedymin.marathon
   tasks:
     #- debug: msg="groups={{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"
   roles:
