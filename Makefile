@@ -39,7 +39,7 @@ sshadd:
 
 nuke:
 	find . -name '*.retry' -delete
-	rm -rf ./ssh/
+	rm -rf ./ssh/ provisioning/roles/williamyeh.prometheus inventory/00_hosts
 
 requirements:
 	@if [ -z "${VIRTUAL_ENV}" ]; then echo "Please setup your virtualenv"; exit 1; fi
