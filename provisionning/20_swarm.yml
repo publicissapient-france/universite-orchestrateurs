@@ -62,6 +62,15 @@
       when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
+    - name: add registry url to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1'
+        line: '127.0.0.1 localhost registry.swarm.uo.techx.fr'
+        owner: root
+        group: root
+        mode: 0644
+
 # when the swarm_manager_operational group is empty, meaning there
 # are no hosts running swarm, we need to initialize one of the hosts
 # then add it to the swarm_manager_operational group
