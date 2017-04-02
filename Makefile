@@ -36,7 +36,14 @@ sshadd:
 
 nuke:
 	find . -name '*.retry' -delete
-	rm -rf ./ssh/ provisioning/roles/williamyeh.prometheus inventory/00_hosts
+	rm -rf \
+	  ./ssh/ \
+	  inventory/00_hosts \
+	  provisioning/roles/williamyeh.prometheus \
+	  provisioning/roles/geerlingguy.java \
+	  provisioning/roles/AnsibleShipyard.ansible-zookeeper \
+	  provisioning/roles/JasonGiedymin.mesos \
+	  provisioning/roles/JasonGiedymin.marathon
 
 requirements:
 	@if [ -z "${VIRTUAL_ENV}" ]; then echo "Please setup your virtualenv"; exit 1; fi
