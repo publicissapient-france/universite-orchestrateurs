@@ -10,8 +10,10 @@ resource "aws_instance" "prometheus" {
   subnet_id                   = "${aws_subnet.monitoring.id}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.allow_all.id}",
+    "${aws_security_group.allow_ssh.id}",
+    "${aws_security_group.allow_public_app.id}",
     "${aws_security_group.allow_logs.id}",
+    "${aws_security_group.allow_vpc.id}",
   ]
 
   root_block_device {

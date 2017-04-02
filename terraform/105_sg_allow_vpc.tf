@@ -8,13 +8,6 @@ resource "aws_security_group" "allow_vpc" {
   }
 
   ingress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
@@ -23,4 +16,12 @@ resource "aws_security_group" "allow_vpc" {
       "${aws_vpc.main.cidr_block}",
     ]
   }
+
+  egress {
+    from_port   = 0
+    protocol    = "-1"
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }

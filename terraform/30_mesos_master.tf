@@ -13,6 +13,7 @@ resource "aws_instance" "mesos-master" {
     "${aws_security_group.allow_ssh.id}",
     "${aws_security_group.allow_vpc.id}",
     "${aws_security_group.allow_prometheus.id}",
+    "${aws_security_group.allow_public_app.id}",
   ]
 
   tags {
