@@ -11,7 +11,7 @@
           "network": "BRIDGE",
           "parameters": [
             { "key": "volume-driver", "value": "rexray/ebs" },
-            { "key": "volume", "value": "mesos-registry-volume:/var/jenkins_home" }
+            { "key": "volume", "value": "mesos-registry-volume:/var/lib/registry" }
           ],
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0, "servicePort": 5000, "protocol": "tcp" }
