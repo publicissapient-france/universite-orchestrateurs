@@ -13,9 +13,6 @@ inventory::
 	@mkdir -p ssh
 	./scripts/terraform2ansible.js terraform/terraform.tfstate inventory/00_hosts
 
-provision: inventory
-	ansible-playbook provisioning/playbook.yml
-
 destroy:
 	cd terraform; terraform destroy
 
