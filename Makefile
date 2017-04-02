@@ -40,3 +40,10 @@ sshadd:
 nuke:
 	find . -name '*.retry' -delete
 	rm -rf ./ssh/
+
+requirements:
+	@if [ -z "${VIRTUAL_ENV}" ]; then echo "Please setup your virtualenv"; exit 1; fi
+	pip install -r requirements.txt
+	ansible-galaxy install -r requirements.yml
+
+bootstrap: requirements get inventory
