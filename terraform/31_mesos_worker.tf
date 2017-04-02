@@ -9,6 +9,8 @@ resource "aws_instance" "mesos-worker" {
   associate_public_ip_address = true
   subnet_id                   = "${aws_subnet.mesos-worker.id}"
 
+  iam_instance_profile = "${aws_iam_instance_profile.rexray-worker.id}"
+
   vpc_security_group_ids = [
     "${aws_security_group.allow_ssh.id}",
     "${aws_security_group.allow_vpc.id}",
