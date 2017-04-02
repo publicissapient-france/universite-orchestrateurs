@@ -25,6 +25,6 @@ COPY bootstrap.sh /usr/local/bin/bootstrap.sh
 
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 
-RUN /usr/local/bin/install-plugins.sh mesos:0.14.1
+RUN /usr/local/bin/install-plugins.sh metrics:3.1.2.9 mesos:0.14.1 blueocean:1.0.0-rc3
 
 ENTRYPOINT ["bootstrap.sh"]
