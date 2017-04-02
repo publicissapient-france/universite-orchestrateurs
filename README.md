@@ -27,6 +27,9 @@ Run the following commands to setup `ansible` (used for deployments) and
     source ./venv/bin/activate
     pip install -r requirements.txt
 
+You'll also have to install `terraform` and probably `kubectl` from your OS
+packages.
+
 ## Rôles ansible
 
 - `ansible-galaxy install williamyeh.prometheus`
