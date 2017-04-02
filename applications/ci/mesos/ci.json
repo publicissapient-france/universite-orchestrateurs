@@ -9,17 +9,14 @@
           "image": "registry:2.5.1",
           "forcePullImage": true,
           "network": "BRIDGE",
+          "parameters": [
+            { "key": "volume-driver", "value": "rexray/ebs" },
+            { "key": "volume", "value": "mesos-registry-volume:/var/jenkins_home" }
+          ],
           "portMappings": [
             { "containerPort": 5000, "hostPort": 0, "servicePort": 5000, "protocol": "tcp" }
           ]
-        },
-        "volumes": [
-          {
-            "containerPath": "/var/lib/registry",
-            "hostPath": "/shared/ci/registry",
-            "mode": "RW"
-          }
-        ]
+        }
       },
       "env": {
         "REGISTRY_LOG_LEVEL": "warn",
@@ -32,7 +29,6 @@
       "cpus": 0.5,
       "mem": 256.0,
       "instances": 1,
-      "constraints": [["hostname", "CLUSTER", "34.252.13.176"]],
       "healthChecks": [
         {
           "protocol": "MESOS_HTTP",
@@ -54,6 +50,10 @@
           "image": "registry.mesos.uo.techx.fr/xebiafrance/jenkins:2.32.3",
           "forcePullImage": true,
           "network": "BRIDGE",
+          "parameters": [
+            { "key": "volume-driver", "value": "rexray/ebs" },
+            { "key": "volume", "value": "mesos-jenkins-volume:/var/jenkins_home" }
+          ],
           "portMappings": [
             { "containerPort": 8080, "hostPort": 0, "servicePort": 8080, "protocol": "tcp" },
             { "containerPort": 50000, "hostPort": 0, "servicePort": 50000, "protocol": "tcp" },
@@ -62,14 +62,7 @@
         },
         "env": {
           "JENKINS_SLAVE_AGENT_PORT": "50000"
-        },
-        "volumes": [
-          {
-            "containerPath": "/var/jenkins_home",
-            "hostPath": "/shared/ci/jenkins",
-            "mode": "RW"
-          }
-        ]
+        }
       },
       "labels": {
         "HAPROXY_0_VHOST": "jenkins.mesos.uo.techx.fr",
@@ -82,7 +75,6 @@
       "cpus": 1,
       "mem": 1024.0,
       "instances": 1,
-      "constraints": [["hostname", "CLUSTER", "34.252.13.176"]],
       "healthChecks": [
         {
           "protocol": "COMMAND",
