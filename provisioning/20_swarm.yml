@@ -1,24 +1,21 @@
 ---
-
-- name: base install for any swarm node
+- name: "Install Docker on each swarm node"
   hosts: swarm-*
-  become: true
   roles:
-    - role: docker
+    - docker
+    - rexray
 
-# determine the status of each manager node and break them
-# into two groups:
+# Determine the status of each MANAGER node and break them into two groups:
 #   - swarm_manager_operational (swarm is running and active)
 #   - swarm_manager_bootstrap (host needs to be joined to the cluster)
 - hosts: swarm-master
-  become: true
   tasks:
-    - name: determine swarm status
+    - name: "Manager - Determine swarm status"
       shell: >
         docker info | egrep '^Swarm: ' | cut -d ' ' -f2
       register: swarm_status
 
-    - name: create swarm_manager_operational group
+    - name: "Manager - Create swarm_manager_operational group"
       add_host:
         hostname: "{{ item }}"
         groups: swarm_manager_operational
@@ -26,7 +23,7 @@
       when: "'active' in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
-    - name: create swarm_manager_bootstrap group
+    - name: "Manager - Create swarm_manager_bootstrap group"
       add_host:
         hostname: "{{ item }}"
         groups: swarm_manager_bootstrap
@@ -34,19 +31,18 @@
       when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
-# determine the status of each worker node and break them
-# into two groups:
+# Determine the status of each WORKER node and break them into two groups:
 #   - swarm_worker_operational (host is joined to the swarm cluster)
 #   - swarm_worker_bootstrap (host needs to be joined to the cluster)
 - hosts: swarm-worker
   become: true
   tasks:
-    - name: determine swarm status
+    - name: "Worker - Determine swarm status"
       shell: >
         docker info | egrep '^Swarm: ' | cut -d ' ' -f2
       register: swarm_status
 
-    - name: create swarm_worker_operational group
+    - name: "Worker - Create swarm_worker_operational group"
       add_host:
         hostname: "{{ item }}"
         groups: swarm_worker_operational
@@ -54,7 +50,7 @@
       when: "'active' in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
-    - name: create swarm_worker_bootstrap group
+    - name: "Worker - Create swarm_worker_bootstrap group"
       add_host:
         hostname: "{{ item }}"
         groups: swarm_worker_bootstrap
@@ -62,7 +58,7 @@
       when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
-    - name: add registry url to /etc/hosts
+    - name: "Worker - Add registry url to /etc/hosts"
       lineinfile:
         dest: /etc/hosts
         regexp: '^127\.0\.0\.1'
@@ -71,20 +67,20 @@
         group: root
         mode: 0644
 
-# when the swarm_manager_operational group is empty, meaning there
-# are no hosts running swarm, we need to initialize one of the hosts
-# then add it to the swarm_manager_operational group
+# When the swarm_manager_operational group is empty, meaning there are no hosts
+# running Swarm, we need to initialize one of the hosts then add it to the
+# swarm_manager_operational group
 - hosts: swarm_manager_bootstrap[0]
   become: true
   tasks:
-    - name: initialize swarm cluster
+    - name: "Initialize swarm cluster"
       shell: >
         docker swarm init
         --advertise-addr={{ swarm_iface | default('eth0') }}:2377
       when: "'swarm_manager_operational' not in groups"
       register: bootstrap_first_node
 
-    - name: add initialized host to swarm_manager_operational group
+    - name: "Add initialized host to swarm_manager_operational group"
       add_host:
         hostname: "{{ item }}"
         groups: swarm_manager_operational
@@ -92,34 +88,30 @@
       when: bootstrap_first_node | changed
 
 
-
-
-# retrieve the swarm tokens and populate a list of ips listening on
-# the swarm port 2377
+# Retrieve the Swarm tokens and populate a list of IPs listening on the swarm
+# port 2377
 - hosts: swarm_manager_operational[0]
   become: true
   vars:
     iface: "{{ swarm_iface | default('eth0') }}"
   tasks:
-    - name: retrieve swarm manager token
+    - name: "Retrieve Swarm MANAGER token"
       shell: docker swarm join-token -q manager
       register: swarm_manager_token
 
-    - name: retrieve swarm worker token
+    - name: "Retrieve Swarm WORKER token"
       shell: docker swarm join-token -q worker
       register: swarm_worker_token
 
-    - name: populate list of manager ips
+    - name: "Populate list of manager IPs"
       add_host:
         hostname: "{{ hostvars[item]['ansible_' + iface]['ipv4']['address'] }}"
         groups: swarm_manager_ips
       with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
 
 
-
-# join the manager hosts not yet initialized to the swarm cluster
+# Join the manager hosts not yet initialized to the swarm cluster
 - hosts: swarm_manager_bootstrap:!swarm_manager_operational
-  become: true
   vars:
     token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
   tasks:
@@ -130,7 +122,7 @@
         --token={{ token }}
         {{ groups['swarm_manager_ips'][0] }}:2377
 
-  # join the worker hosts not yet initialized to the swarm cluster
+# Join the worker hosts not yet initialized to the swarm cluster
 - hosts: swarm_worker_bootstrap
   become: true
   vars:
@@ -144,5 +136,5 @@
         {{ groups['swarm_manager_ips'][0] }}:2377
 
 
-- name: Swarm services
+- name: "Setup Swarm services"
   include: 21_swarm_services.yml

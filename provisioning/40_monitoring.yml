@@ -1,16 +1,13 @@
 ---
-
-- name: Node exporter
+- name: "Node exporter"
   hosts: swarm*:kubernetes*:mesos*
-  become: true
   vars:
     prometheus_components: [ "node_exporter" ]
   roles:
-    - role: 'williamyeh.prometheus'
+    - williamyeh.prometheus
 
-- name: Prometheus master
+- name: "Setup Prometheus master"
   hosts: prometheus
-  become: true
   vars:
 #    prometheus_components: [ "prometheus" , "alertmanager" ]
     prometheus_port: 9090
@@ -27,16 +24,15 @@
       - name: 'mesos-master'
         hosts: ['master-exporter.mesosuniv.aws.xebiatechevent.info']
         port: 80
-
     grafana_port: 3000
     grafana_datasources:
       - name: prometheus
         type: prometheus
-        url: "{{ inventory_hostname }}:{{ prometheus_port }}"
+        url:  "{{ inventory_hostname }}:{{ prometheus_port }}"
     grafana_plugins:
       - natel-discrete-panel
   roles:
-    - role: 'docker'
+    - docker
     - { role: 'prometheus', tags: service}
     - { role: "grafana",  tags: service}
     - { role: "graylog",  tags: ['service','wip']}

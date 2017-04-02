@@ -1,46 +1,46 @@
 ---
 - hosts: mesos-master
-  become: true
-  # ansible-galaxy install --roles-path ./provisioning/roles/ geerlingguy.java
-  # ansible-galaxy install --roles-path ./provisioning/roles/ AnsibleShipyard.ansible-zookeeper
-  # ansible-galaxy install --roles-path ./provisioning/roles/ JasonGiedymin.mesos
-  # ansible-galaxy install --roles-path ./provisioning/roles/ JasonGiedymin.marathon
-  tasks:
+  #tasks:
     #- debug: msg="groups={{groups['mesos-master'] | map('extract', hostvars, ['private_ip']) | list }}"
   roles:
     - role: geerlingguy.java
       java_packages: ["openjdk-8-jdk"]
+
     - role: AnsibleShipyard.ansible-zookeeper
-      zookeeper_hosts: "{{groups['mesos-master']}}"
+      zookeeper_hosts: "{{ groups['mesos-master'] }}"
       zookeeper_env:
-        ZOO_LOG_DIR: '/var/log/zookeeper'
+        ZOO_LOG_DIR:    '/var/log/zookeeper'
         ZOO_LOG4J_PROP: 'INFO,ROLLINGFILE'
+
     - role: JasonGiedymin.mesos
-      mesos_install_mode: master
-      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
-      mesos_hostname: "{{ public_ip }}"
-      mesos_quorum: "2"
+      mesos_install_mode:   master
+      zookeeper_hostnames:  "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+      mesos_hostname:       "{{ public_ip }}"
+      mesos_quorum:         "2"
+
     - role: JasonGiedymin.marathon
-      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
-      marathon_hostname: "{{ public_ip }}"
-      marathon_version: "1.4.1"
+      zookeeper_hostnames:  "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+      marathon_hostname:    "{{ public_ip }}"
+      marathon_version:     "1.4.1"
 
 - hosts: mesos-worker
   become: true
   roles:
     - role: docker
+
     - role: JasonGiedymin.mesos
-      mesos_hostname: "{{ public_ip }}"
-      mesos_install_mode: slave
-      zookeeper_hostnames: "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+      mesos_hostname:       "{{ public_ip }}"
+      mesos_install_mode:   slave
+      zookeeper_hostnames:  "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+
     - role: marathon-lb
-      marathon_hosts : "{{groups['mesos-master']}}"
+      marathon_hosts: "{{groups['mesos-master']}}"
   tasks:
     - name: add registry url to /etc/hosts
       lineinfile:
-        dest: /etc/hosts
+        dest:   /etc/hosts
         regexp: '^127\.0\.0\.1'
-        line: '127.0.0.1 localhost registry.mesos.uo.techx.fr'
-        owner: root
-        group: root
-        mode: 0644
+        line:   '127.0.0.1 localhost registry.mesos.uo.techx.fr'
+        owner:  root
+        group:  root
+        mode:   0644

@@ -1,11 +1,7 @@
 ---
-
-
 - hosts: swarm-master[0]
-  become: true
   tasks:
-
-    - name: traefik status
+    - name: "Traefik status"
       shell: docker service inspect traefik
       register: traefik_status
       ignore_errors: yes
@@ -14,7 +10,7 @@
     - block:
       - shell: docker network inspect traefik-net || docker network create --driver=overlay traefik-net
 
-      - name: deploy traefik
+      - name: "Deploy traefik"
         shell: >
           docker service create \
            --name traefik \
@@ -32,7 +28,7 @@
       when: traefik_status.rc != 0
       tags: service
 
-    - name: deploy Portainer
+    - name: "Deploy Portainer"
       shell: >
         docker service inspect portainer || docker service create \
           --name portainer \
