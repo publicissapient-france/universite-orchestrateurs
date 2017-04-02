@@ -1,1 +1,14 @@
 - src: williamyeh.prometheus
+  version: 2.3.2
+
+- src: geerlingguy.java
+  version: 1.7.4
+
+- src: AnsibleShipyard.ansible-zookeeper
+  version: v0.17.0
+
+- src: JasonGiedymin.mesos
+  version: master
+
+- src: JasonGiedymin.marathon
+  version: v0.7.0
