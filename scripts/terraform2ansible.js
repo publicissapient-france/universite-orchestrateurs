@@ -94,11 +94,11 @@ if (output) {
         }
     });
 
-    fs.writeFile('ssh_config', ssh_config, function (err) {
+    fs.writeFile('./ssh/ssh_config', ssh_config, function (err) {
         if (err) {
             console.log(err);
         } else {
-            console.log('ssh_config' + " was saved!");
+            console.log('./ssh/ssh_config' + " was saved!");
         }
     });
 } else {
