@@ -1,6 +1,9 @@
 ---
 - hosts: swarm-master[0]
   tasks:
+    - name: reserve network with subnet 10.0.0.0/24
+      shell: docker network inspect reserved_10_0_0_0_24 || docker network create --driver=overlay --subnet 10.0.0.0/24 reserved_10_0_0_0_24
+
     - name: "Traefik status"
       shell: docker service inspect traefik
       register: traefik_status
