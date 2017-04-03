@@ -1,4 +1,4 @@
-version: "3"
+version: "3.1"
 
 services:
   registry:
@@ -29,6 +29,20 @@ services:
       - jenkins_volume:/var/jenkins_home
     networks:
       - traefik-net
+  jenkins-slave:
+    image: xebiafrance/uo-jenkins-slave-swarm
+    secrets:
+      - jenkins_admin_password
+    deploy:
+      replicas: 5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-net
+
+secrets:
+  jenkins_admin_password:
+    external: true
 
 volumes:
   registry_volume:
