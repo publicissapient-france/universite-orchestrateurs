@@ -43,11 +43,10 @@
     },
     {
       "id": "jenkins",
-      "dependencies": ["registry"],
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "registry.mesos.uo.techx.fr/xebiafrance/jenkins:2.32.3",
+          "image": "xebiafrance/uo-jenkins-mesos",
           "forcePullImage": true,
           "network": "BRIDGE",
           "parameters": [
