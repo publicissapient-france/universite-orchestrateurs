@@ -1,0 +1,33 @@
+{
+  "id": "ui",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "capgemini/mesos-ui:standalone-latest",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 5000, "hostPort": 0, "servicePort": 8500, "protocol": "tcp" }
+      ]
+    }
+  },
+  "env": {
+    "ZOOKEEPER_ADDRESS": "mesos-master1.private:2181,mesos-master2.private:2181,mesos-master3.private:2181"
+  },
+  "labels": {
+    "HAPROXY_0_VHOST": "ui.mesos.uo.techx.fr"
+  },
+  "cpus": 0.2,
+  "mem": 512,
+  "instances": 1,
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "gracePeriodSeconds": 3,
+      "intervalSeconds": 10,
+      "portIndex": 0,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}
