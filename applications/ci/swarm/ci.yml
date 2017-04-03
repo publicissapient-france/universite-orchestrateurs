@@ -12,6 +12,7 @@ services:
     volumes:
       - registry_volume:/var/lib/registry
     networks:
+      - default
       - traefik-net
     environment:
       REGISTRY_LOG_LEVEL: warn
@@ -28,6 +29,7 @@ services:
     volumes:
       - jenkins_volume:/var/jenkins_home
     networks:
+      - default
       - traefik-net
   jenkins-slave:
     image: xebiafrance/uo-jenkins-slave-swarm
@@ -37,8 +39,6 @@ services:
       replicas: 5
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - traefik-net
 
 secrets:
   jenkins_admin_password:
@@ -51,5 +51,6 @@ volumes:
     driver: rexray/ebs:latest
 
 networks:
+  default:
   traefik-net:
     external: true
