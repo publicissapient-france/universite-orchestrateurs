@@ -45,3 +45,6 @@
         owner:  root
         group:  root
         mode:   0644
+    - name: add Mesos exporter
+      shell: docker rm -f mesos-exporter; docker run -d --name mesos-exporter --restart=always --net=host mesosphere/mesos_exporter -slave http://{{ansible_eth0.ipv4.address}}:5051
+      tags: WIP
