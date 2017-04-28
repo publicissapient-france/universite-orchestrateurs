@@ -12,9 +12,29 @@ spec:
   selector:
     app: jenkins
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8080
+      protocol: TCP
+    - name: slave
+      port: 50000
+      protocol: TCP
   type: "LoadBalancer"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jenkins-discovery
+  namespace: ci
+spec:
+  selector:
+    app: jenkins
+  ports:
+    - protocol: TCP
+      port: 50000
+      targetPort: 50000
+      name: slaves
 
 ---
 apiVersion: "v1"
@@ -56,6 +76,7 @@ spec:
             memory: 100Mi
         ports:
         - containerPort: 8080
+        - containerPort: 50000
         volumeMounts:
             - mountPath: /var/jenkins_home
               name: jenkins-data
@@ -66,3 +87,4 @@ spec:
       - name: jenkins-data
         persistentVolumeClaim:
           claimName: jenkins-vol-claim
+#${computer.jnlpmac} ${computer.name}

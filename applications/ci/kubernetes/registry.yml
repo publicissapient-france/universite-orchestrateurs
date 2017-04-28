@@ -12,6 +12,7 @@ spec:
     targetPort: 5000
   selector:
     app: registry
+
 ---
 apiVersion: "v1"
 kind: "PersistentVolumeClaim"
@@ -26,6 +27,7 @@ spec:
   resources:
     requests:
       storage: "10Gi"
+
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
