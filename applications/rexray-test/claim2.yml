@@ -1,0 +1,13 @@
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "dynclaim1"
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "std"
+spec:
+  "accessModes":
+   - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "4Gi"
+
